@@ -1,0 +1,184 @@
+// Real-estate listing platform schema
+// Designed for 50k+ listings with indexed search & filter queries.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  AGENT
+  ADMIN
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  VILLA
+  PLOT
+  COMMERCIAL
+  PG
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum FurnishStatus {
+  UNFURNISHED
+  SEMI_FURNISHED
+  FURNISHED
+}
+
+enum PropertyStatus {
+  ACTIVE
+  INACTIVE
+  SOLD
+  RENTED
+}
+
+// Occupancy type for PG / Hostel listings. Null for non-PG properties.
+enum RoomType {
+  SINGLE
+  DOUBLE
+  TRIPLE
+  QUAD
+  DORMITORY
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  properties     Property[]
+  inquiriesMade  Inquiry[]      @relation("InquirerInquiries")
+  refreshTokens  RefreshToken[]
+  wishlist       WishlistItem[]
+
+  @@index([email])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Property {
+  id            String         @id @default(uuid())
+  slug          String         @unique
+  title         String
+  description   String
+  price         Decimal        @db.Decimal(14, 2)
+  type          PropertyType
+  listingType   ListingType
+  bedrooms      Int            @default(0)
+  bathrooms     Int            @default(0)
+  areaSqft      Int
+  furnishing    FurnishStatus  @default(UNFURNISHED)
+  // Only meaningful when type = PG. Null for apartments, houses, plots, etc.
+  roomType      RoomType?
+  city          String
+  locality      String
+  address       String
+  latitude      Float?
+  longitude     Float?
+  amenities     String[]       @default([])
+  status        PropertyStatus @default(ACTIVE)
+  isVerified    Boolean        @default(false)
+  viewCount     Int            @default(0)
+  ownerId       String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  owner        User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  images       PropertyImage[]
+  inquiries    Inquiry[]
+  wishlistedBy WishlistItem[]
+
+  // Indexes powering the search & filter API. See docs/INDEXES.md for rationale.
+  @@index([city])
+  @@index([type])
+  @@index([listingType])
+  @@index([bedrooms])
+  @@index([price])
+  @@index([status])
+  @@index([createdAt])
+  @@index([ownerId])
+  // Composite index for the most common filter combination:
+  // city + listingType + type + bedrooms, sorted by price/createdAt.
+  @@index([city, listingType, type, bedrooms, price])
+  @@index([city, listingType, type, bedrooms, createdAt])
+  // Powers the PG-specific filter path: city + PG + occupancy + price.
+  @@index([type, roomType, city, price])
+}
+
+model PropertyImage {
+  id         String  @id @default(uuid())
+  propertyId String
+  url        String
+  order      Int     @default(0)
+  isPrimary  Boolean @default(false)
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+}
+
+// User's saved/favorited properties. Composite unique on (userId, propertyId)
+// makes "is this property in my wishlist" a single indexed lookup and prevents
+// duplicates without app-level logic.
+model WishlistItem {
+  id         String   @id @default(uuid())
+  userId     String
+  propertyId String
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@index([userId])
+  @@index([propertyId])
+}
+
+model Inquiry {
+  id         String   @id @default(uuid())
+  propertyId String
+  userId     String?  // null for guest inquiries
+  name       String
+  email      String
+  phone      String
+  message    String
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user     User?    @relation("InquirerInquiries", fields: [userId], references: [id], onDelete: SetNull)
+
+  // Dedup: same logged-in user can't spam the same property.
+  @@unique([propertyId, userId])
+  @@index([propertyId])
+  @@index([email])
+  @@index([createdAt])
+}
