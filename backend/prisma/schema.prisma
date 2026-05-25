@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -66,6 +67,7 @@ model User {
   inquiriesMade  Inquiry[]      @relation("InquirerInquiries")
   refreshTokens  RefreshToken[]
   wishlist       WishlistItem[]
+  reviews        Review[]
 
   @@index([email])
 }
@@ -115,6 +117,7 @@ model Property {
   images       PropertyImage[]
   inquiries    Inquiry[]
   wishlistedBy WishlistItem[]
+  reviews      Review[]
 
   // Indexes powering the search & filter API. See docs/INDEXES.md for rationale.
   @@index([city])
@@ -181,4 +184,22 @@ model Inquiry {
   @@index([propertyId])
   @@index([email])
   @@index([createdAt])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  propertyId String
+  userId     String
+  rating     Int      // 1 to 5 stars
+  comment    String   @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Enforce one review per user per property
+  @@unique([propertyId, userId])
+  @@index([propertyId])
+  @@index([userId])
 }

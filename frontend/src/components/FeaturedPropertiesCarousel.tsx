@@ -87,11 +87,13 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
               key={`${property.id}-${idx}`}
               href={`/properties/${property.slug}`}
               onMouseEnter={() => setHoveredIdx(idx)}
-              className={`group relative flex-1 min-w-0 bg-white/70 border rounded-[2rem] overflow-hidden flex flex-col justify-between transition-all duration-500 ease-out shadow-soft ${
+              className={`group relative flex-1 min-w-0 bg-white/70 border rounded-[2rem] overflow-hidden flex flex-col justify-between transition-all duration-500 ease-out shadow-soft 
+                ${
                 isActive 
-                  ? 'md:flex-[1.8] border-white/50 md:opacity-100 md:blur-none md:scale-100 shadow-xl' 
-                  : 'md:flex-1 border-white/20 md:opacity-50 md:blur-[1.5px] md:scale-[0.97]'
-              }`}
+                  ? 'md:flex-[1.8] border-white/50 md:opacity-100 md:scale-100 shadow-xl' 
+                  : 'md:flex-1 border-white/20 md:opacity-50'
+              }
+              `}
             >
               {/* Image & Badges Container */}
               <div className="relative w-full h-[290px] overflow-hidden bg-zinc-100">

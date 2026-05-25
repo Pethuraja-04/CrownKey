@@ -49,7 +49,8 @@ export default async function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative h-[calc(100vh-4.5rem)] max-h-[850px] min-h-[600px] w-full overflow-hidden flex flex-col justify-between">
+      {/* HERO SECTION */}
+      <section className="relative h-[calc(100vh-4.5rem)] max-h-[900px] min-h-[750px] w-full overflow-hidden flex items-center">
         {/* Background Cover Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -57,31 +58,38 @@ export default async function HomePage() {
             alt="Premium luxury real estate background"
             fill
             priority
-            className="object-cover"
+            className="object-cover animate-ken-burns"
           />
           {/* Ambient overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy via-luxury-navy/40 to-luxury-navy/60 z-10" />
         </div>
 
-        <div className="container relative z-20 pt-16 md:pt-20 pb-10 md:pb-14">
+        <div className="container relative z-20 py-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* LEFT COLUMN: Heading & Description */}
-            <div className="lg:col-span-5 space-y-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-xs tracking-[0.2em] uppercase">
-                Premium Real Estate
-              </span>
-              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
-                Find Your <br /> 
-                <span className="text-luxury-gold">Perfect Property</span>
-              </h1>
-              <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed max-w-md font-sans">
-                CrownKey curates residential and commercial estates across premier destinations. Experience direct, verified property connections with zero brokerage friction.
-              </p>
+            {/* LEFT COLUMN: Heading, Description & Search */}
+            <div className="lg:col-span-8 space-y-8">
+              <div className="space-y-6">
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-xs tracking-[0.2em] uppercase">
+                  Premium Real Estate
+                </span>
+                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
+                  Find Your <br /> 
+                  <span className="text-luxury-gold">Perfect Property</span>
+                </h1>
+                <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed max-w-md font-sans">
+                  CrownKey curates residential and commercial estates across premier destinations. Experience direct, verified property connections with zero brokerage friction.
+                </p>
+              </div>
+
+              {/* Combined Search bar container directly under description */}
+              <div className="w-full animate-float">
+                <HeroSearch />
+              </div>
             </div>
 
-            {/* RIGHT COLUMN: Stats Grid Card Showcase */}
-            <div className="lg:col-span-7 relative stats-fade-in">
+            {/* RIGHT COLUMN: Stats Cards Stacked Vertically */}
+            <div className="lg:col-span-4 space-y-6 stats-fade-in relative">
               {/* Background Ambient Glows */}
               <div className="absolute -top-10 -right-10 w-72 h-72 bg-luxury-gold/10 rounded-full blur-[80px] pointer-events-none" />
               <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-luxury-deep/20 rounded-full blur-[80px] pointer-events-none" />
@@ -89,64 +97,53 @@ export default async function HomePage() {
               {/* Decorative dotted grid pattern */}
               <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:16px_16px] rounded-3xl pointer-events-none" />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
-                
-                {/* Stat 1: Active Listings */}
-                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 flex flex-col justify-between h-[160px]">
-                  <div className="flex items-start justify-between">
-                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
-                      <Building2 className="w-5 h-5" />
-                    </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-luxury-gold animate-pulse mt-1" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                      50k+
-                    </h3>
-                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
-                      Active Listings
-                    </p>
-                  </div>
+              {/* Stat 1: Active Listings */}
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+                <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                  <Building2 className="w-6 h-6" />
                 </div>
-
-                {/* Stat 2: Cities Covered */}
-                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 sm:translate-y-6 flex flex-col justify-between h-[160px]">
-                  <div className="flex items-start justify-between">
-                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
-                      <Sparkles className="w-5 h-5" />
-                    </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-luxury-gold/50 mt-1" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                      10+
-                    </h3>
-                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
-                      Cities Covered
-                    </p>
-                  </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                    50k+
+                    <span className="w-2 h-2 rounded-full bg-luxury-gold animate-pulse" />
+                  </h3>
+                  <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-0.5 font-sans">
+                    Active Listings
+                  </p>
                 </div>
+              </div>
 
-                {/* Stat 3: Owner Support */}
-                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 sm:col-span-2 sm:translate-y-3 flex flex-col justify-between h-[160px]">
-                  <div className="flex items-start justify-between">
-                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
-                      <Users className="w-5 h-5" />
-                    </div>
+              {/* Stat 2: Cities Covered */}
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+                <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-white tracking-tight">
+                    10+
+                  </h3>
+                  <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-0.5 font-sans">
+                    Cities Covered
+                  </p>
+                </div>
+              </div>
+
+              {/* Stat 3: Owner Support */}
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+                <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                    24/7
                     <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold uppercase font-sans tracking-wide">
                       Live
                     </span>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                      24/7
-                    </h3>
-                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
-                      Direct Owner Support
-                    </p>
-                  </div>
+                  </h3>
+                  <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-0.5 font-sans">
+                    Direct Owner Support
+                  </p>
                 </div>
-
               </div>
 
               <style dangerouslySetInnerHTML={{
@@ -155,22 +152,22 @@ export default async function HomePage() {
                     from { opacity: 0; transform: translateX(-30px); }
                     to { opacity: 1; transform: translateX(0); }
                   }
+                  @keyframes kenBurns {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.08) translate(5px, -3px); }
+                    100% { transform: scale(1); }
+                  }
                   .stats-fade-in {
                     animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
                     opacity: 0;
+                  }
+                  .animate-ken-burns {
+                    animation: kenBurns 40s ease-in-out infinite;
                   }
                 `
               }} />
             </div>
 
-          </div>
-        </div>
-
-
-
-        <div className="container relative z-20 my-auto">
-          <div className="max-w-7xl mx-auto w-full animate-float">
-            <HeroSearch />
           </div>
         </div>
       </section>

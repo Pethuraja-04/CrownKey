@@ -40,6 +40,20 @@ export interface PropertyListItem {
   viewCount?: number;
 }
 
+export interface Review {
+  id: string;
+  propertyId: string;
+  userId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface Property extends PropertyListItem {
   description: string;
   address: string;
@@ -50,6 +64,7 @@ export interface Property extends PropertyListItem {
   updatedAt: string;
   status: PropertyStatus;
   viewCount: number;
+  reviews?: Review[];
 }
 
 export interface User {

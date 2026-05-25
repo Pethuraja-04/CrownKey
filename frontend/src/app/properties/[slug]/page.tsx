@@ -9,6 +9,7 @@ import Gallery from '@/components/property/Gallery';
 import PropertyCard from '@/components/property/PropertyCard';
 import WishlistButton from '@/components/property/WishlistButton';
 import ContactCTA from './ContactCTA';
+import PropertyReviews from '@/components/property/PropertyReviews';
 import { formatINR, formatArea, titleCaseType, relativeTime, roomTypeLabel } from '@/lib/format';
 
 // ISR: regenerate the page once per minute. Strikes a balance between fresh
@@ -208,6 +209,13 @@ export default async function PropertyDetailPage({ params }: { params: Params })
               <p className="text-ink-900 font-medium font-mono text-xs">{property.id.slice(0, 8)}</p>
             </div>
           </section>
+
+          {/* Reviews Section */}
+          <PropertyReviews
+            propertyId={property.id}
+            ownerId={property.owner.id}
+            initialReviews={property.reviews || []}
+          />
         </div>
 
         {/* Sidebar: owner card + CTA */}

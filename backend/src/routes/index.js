@@ -4,6 +4,7 @@ const properties = require('./property.routes');
 const inquiries = require('./inquiry.routes');
 const chat = require('./chat.routes');
 const wishlist = require('./wishlist.routes');
+const reviews = require('./review.routes');
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use('/properties', properties);
 router.use('/inquiries', inquiries);
 router.use('/chat', chat);
 router.use('/wishlist', wishlist);
+router.use('/reviews', reviews);
 
 module.exports = router;

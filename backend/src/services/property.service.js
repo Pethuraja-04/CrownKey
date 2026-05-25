@@ -28,6 +28,17 @@ const PUBLIC_FIELDS = {
   updatedAt: true,
   owner: { select: { id: true, name: true, phone: true, email: true, role: true } },
   images: { select: { id: true, url: true, order: true, isPrimary: true }, orderBy: { order: 'asc' } },
+  reviews: {
+    select: {
+      id: true,
+      rating: true,
+      comment: true,
+      createdAt: true,
+      updatedAt: true,
+      user: { select: { id: true, name: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+  },
 };
 
 const LIST_FIELDS = {

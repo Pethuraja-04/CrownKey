@@ -4,6 +4,7 @@ import type {
   PropertyListItem,
   Pagination,
   User,
+  Review,
 } from './types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
@@ -280,5 +281,34 @@ export const apiChatMessage = (message: string, history: ChatMessage[]) =>
       cache: 'no-store',
     },
   );
+
+// --- Reviews ---
+export const apiCreateReview = (
+  token: string,
+  propertyId: string,
+  body: { rating: number; comment: string }
+) =>
+  request<{ success: true; data: Review }>(`/api/reviews/properties/${propertyId}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    token,
+  });
+
+export const apiUpdateReview = (
+  token: string,
+  id: string,
+  body: { rating?: number; comment?: string }
+) =>
+  request<{ success: true; data: Review }>(`/api/reviews/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    token,
+  });
+
+export const apiDeleteReview = (token: string, id: string) =>
+  request<{ success: true; data: { ok: boolean } }>(`/api/reviews/${id}`, {
+    method: 'DELETE',
+    token,
+  });
 
 export { ApiError, API_URL };
