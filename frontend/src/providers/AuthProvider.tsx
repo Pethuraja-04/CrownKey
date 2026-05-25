@@ -23,6 +23,10 @@ interface AuthCtx extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (data: { name: string; email: string; password: string; phone?: string }) => Promise<void>;
   logout: () => Promise<void>;
+  authOpen: boolean;
+  authMode: 'login' | 'register';
+  openAuth: (mode?: 'login' | 'register') => void;
+  closeAuth: () => void;
 }
 
 const Ctx = createContext<AuthCtx | null>(null);
@@ -53,6 +57,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading: true,
   });
 
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+
+  const openAuth = useCallback((mode: 'login' | 'register' = 'login') => {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  }, []);
+
+  const closeAuth = useCallback(() => {
+    setAuthOpen(false);
+  }, []);
+
   useEffect(() => {
     const stored = readStored();
     if (!stored?.accessToken) {
@@ -73,6 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const next = { user: data.user, accessToken: data.accessToken, refreshToken: data.refreshToken };
     writeStored(next);
     setState({ ...next, loading: false });
+    setAuthOpen(false); // Close auth modal on successful login
   }, []);
 
   const register = useCallback(async (body: { name: string; email: string; password: string; phone?: string }) => {
@@ -80,6 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const next = { user: data.user, accessToken: data.accessToken, refreshToken: data.refreshToken };
     writeStored(next);
     setState({ ...next, loading: false });
+    setAuthOpen(false); // Close auth modal on successful register
   }, []);
 
   const logout = useCallback(async () => {
@@ -91,8 +109,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [state.refreshToken]);
 
   const value = useMemo<AuthCtx>(
-    () => ({ ...state, login, register, logout }),
-    [state, login, register, logout],
+    () => ({
+      ...state,
+      login,
+      register,
+      logout,
+      authOpen,
+      authMode,
+      openAuth,
+      closeAuth,
+    }),
+    [state, login, register, logout, authOpen, authMode, openAuth, closeAuth],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

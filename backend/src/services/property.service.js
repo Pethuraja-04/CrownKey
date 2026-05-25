@@ -193,28 +193,30 @@ const update = async (ownerId, id, data) => {
 
   const { imageUrls, ...rest } = data;
 
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.property.update({
-      where: { id },
-      data: rest,
-      select: PUBLIC_FIELDS,
-    });
-
-    if (imageUrls?.length) {
-      await tx.propertyImage.deleteMany({ where: { propertyId: id } });
-      await tx.propertyImage.createMany({
+  if (imageUrls?.length) {
+    const [_, __, updated] = await prisma.$transaction([
+      prisma.propertyImage.deleteMany({ where: { propertyId: id } }),
+      prisma.propertyImage.createMany({
         data: imageUrls.map((url, idx) => ({
           propertyId: id,
           url,
           order: idx,
           isPrimary: idx === 0,
         })),
-      });
-      const refreshed = await tx.property.findUnique({ where: { id }, select: PUBLIC_FIELDS });
-      return refreshed;
-    }
-
+      }),
+      prisma.property.update({
+        where: { id },
+        data: rest,
+        select: PUBLIC_FIELDS,
+      })
+    ]);
     return updated;
+  }
+
+  return prisma.property.update({
+    where: { id },
+    data: rest,
+    select: PUBLIC_FIELDS,
   });
 };
 

@@ -85,13 +85,13 @@ export default function Footer() {
       <div className="border-b border-ink-800/80">
         <div className="container py-5 flex flex-wrap items-center justify-center md:justify-between gap-4 text-xs">
           <p className="text-ink-400">
-            <span className="text-canvas font-medium">Estatery</span> · premium property
+            <span className="text-canvas font-medium">CrownKey</span> · premium property
             discovery across India.
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {trustItems.map(({ icon: Icon, label }) => (
               <li key={label} className="flex items-center gap-1.5 text-ink-300">
-                <Icon className="h-3.5 w-3.5 text-gold-400" />
+                <Icon className="h-3.5 w-3.5 text-[#e55b3c]" />
                 <span>{label}</span>
               </li>
             ))}
@@ -104,11 +104,11 @@ export default function Footer() {
         {/* Brand block */}
         <div className="col-span-2 md:col-span-2">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-gold-300 to-gold-500 text-ink-900 grid place-items-center font-display text-xl font-bold shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
-              E
+            <div className="h-10 w-10 rounded-xl bg-[#e55b3c] text-white grid place-items-center font-display text-xl font-bold shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
+              C
             </div>
             <span className="font-display text-2xl font-semibold text-canvas leading-none">
-              Estatery
+              CrownKey
             </span>
           </Link>
           <p className="mt-5 text-sm leading-relaxed text-ink-400 max-w-sm">
@@ -118,16 +118,16 @@ export default function Footer() {
 
           <ul className="mt-6 space-y-3 text-sm">
             <li className="flex items-start gap-2.5">
-              <Mail className="h-4 w-4 mt-0.5 text-gold-400 shrink-0" />
+              <Mail className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
               <a
-                href="mailto:hello@estatery.in"
+                href="mailto:hello@crownkey.com"
                 className="text-ink-300 hover:text-canvas transition-colors"
               >
-                hello@estatery.in
+                hello@crownkey.com
               </a>
             </li>
             <li className="flex items-start gap-2.5">
-              <Phone className="h-4 w-4 mt-0.5 text-gold-400 shrink-0" />
+              <Phone className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
               <a
                 href="tel:+918000000000"
                 className="text-ink-300 hover:text-canvas transition-colors"
@@ -136,7 +136,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="flex items-start gap-2.5">
-              <MapPin className="h-4 w-4 mt-0.5 text-gold-400 shrink-0" />
+              <MapPin className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
               <span className="text-ink-300">
                 Indiranagar, Bengaluru 560038
                 <span className="block text-ink-500 text-xs mt-0.5">Mon–Sat · 10am to 7pm IST</span>
@@ -150,7 +150,7 @@ export default function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="h-9 w-9 grid place-items-center rounded-full bg-white/5 text-ink-300 hover:bg-gold-400 hover:text-ink-900 transition-colors"
+                className="h-9 w-9 grid place-items-center rounded-full bg-white/5 text-ink-300 hover:bg-[#e55b3c] hover:text-white transition-colors"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -172,7 +172,7 @@ export default function Footer() {
                   >
                     <span className="relative">
                       {l.label}
-                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gold-400 transition-all duration-300 group-hover:w-full" />
+                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#e55b3c] transition-all duration-300 group-hover:w-full" />
                     </span>
                   </Link>
                 </li>
@@ -193,7 +193,7 @@ export default function Footer() {
               <li key={s.label}>
                 <Link
                   href={s.href}
-                  className="inline-block px-3 py-1.5 text-xs text-ink-300 rounded-full border border-ink-700/70 bg-white/[0.02] hover:border-gold-400 hover:text-canvas hover:bg-white/5 transition-colors"
+                  className="inline-block px-3 py-1.5 text-xs text-ink-300 rounded-full border border-ink-700/70 bg-white/[0.02] hover:border-[#e55b3c] hover:text-canvas hover:bg-white/5 transition-colors"
                 >
                   {s.label}
                 </Link>
@@ -207,14 +207,14 @@ export default function Footer() {
       <div className="border-t border-ink-800">
         <div className="container py-6 flex flex-col gap-4 text-xs text-ink-500">
           <p className="text-[11px] leading-relaxed text-ink-500 max-w-3xl">
-            <span className="text-ink-300 font-medium">Disclaimer:</span> Estatery is a property
+            <span className="text-ink-300 font-medium">Disclaimer:</span> CrownKey is a property
             discovery platform. Listings on the site are user-generated and not legal or financial
             advice. Always verify ownership documents and RERA registration with a qualified
             advisor before any transaction.
           </p>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <span suppressHydrationWarning>
-              © {new Date().getFullYear()} Estatery. All rights reserved.
+              © {new Date().getFullYear()} CrownKey. All rights reserved.
             </span>
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <li>

@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --font-sans: 'Inter', system-ui, sans-serif;
-    --font-display: 'Fraunces', Georgia, serif;
+    --font-display: 'Outfit', sans-serif;
   }
   html {
     @apply antialiased;
@@ -13,13 +13,13 @@
   body {
     @apply text-ink-800 font-sans;
     font-feature-settings: 'cv11', 'ss01', 'ss03';
-    /* Soft warm canvas with a barely-there mesh of radial highlights.
+    /* Soft warm zinc-50 base with a barely-there mesh of neutral radial highlights.
        The blobs in BackgroundDecor.tsx layer on top of this. */
-    background-color: #FAFAF7;
+    background-color: #fafafa;
     background-image:
-      radial-gradient(at 8% 0%, rgba(212, 164, 90, 0.10) 0px, transparent 50%),
-      radial-gradient(at 92% 0%, rgba(11, 18, 32, 0.05) 0px, transparent 55%),
-      radial-gradient(at 50% 100%, rgba(212, 164, 90, 0.06) 0px, transparent 50%);
+      radial-gradient(at 8% 0%, rgba(113, 113, 122, 0.06) 0px, transparent 50%),
+      radial-gradient(at 92% 0%, rgba(24, 24, 27, 0.05) 0px, transparent 55%),
+      radial-gradient(at 50% 100%, rgba(161, 161, 170, 0.04) 0px, transparent 50%);
     background-attachment: fixed;
   }
   h1, h2, h3, h4 {
@@ -88,20 +88,20 @@
 /* Faint architectural grid — for hero / section backdrops. */
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgba(11, 18, 32, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(11, 18, 32, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(24, 24, 27, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(24, 24, 27, 0.04) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
 /* Dotted variant — softer than the grid. */
 .bg-dots {
-  background-image: radial-gradient(rgba(11, 18, 32, 0.07) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(24, 24, 27, 0.07) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
 /* Vignette: subtle inner shadow so content centers visually. */
 .bg-vignette {
-  box-shadow: inset 0 0 180px 40px rgba(11, 18, 32, 0.06);
+  box-shadow: inset 0 0 180px 40px rgba(24, 24, 27, 0.06);
 }
 
 /* Skeleton shimmer */

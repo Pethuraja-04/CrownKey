@@ -5,7 +5,7 @@ import { MessageSquare, X, Send, Sparkles, RotateCcw, AlertCircle, Bot } from 'l
 import { apiChatMessage, ApiError, type ChatMessage } from '@/lib/api';
 
 const SUGGESTIONS = [
-  'How do I list a property on Estatery?',
+  'How do I list a property on CrownKey?',
   "What's the difference between Single and Double PG occupancy?",
   'Show me 3 BHK apartments in Bengaluru under ₹2 Cr',
   'What does carpet area vs built-up area mean?',
@@ -14,10 +14,10 @@ const SUGGESTIONS = [
 const GREETING: ChatMessage = {
   role: 'assistant',
   content:
-    "Hi! I'm **Estatery's property concierge**. I can help you find listings, understand filters, or learn about real estate in India.\n\nWhat would you like to know?",
+    "Hi! I'm **CrownKey's property concierge**. I can help you find listings, understand filters, or learn about real estate in India.\n\nWhat would you like to know?",
 };
 
-const STORAGE_KEY = 'estatery.chat.v1';
+const STORAGE_KEY = 'crownkey.chat.v1';
 
 const loadHistory = (): ChatMessage[] => {
   if (typeof window === 'undefined') return [GREETING];
@@ -144,8 +144,8 @@ export default function ChatWidget() {
         onClick={() => setOpen((v) => !v)}
         className={`fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full grid place-items-center shadow-lift transition-all duration-300 ${
           open
-            ? 'bg-ink-900 text-canvas rotate-90 scale-95'
-            : 'bg-gradient-to-br from-gold-400 to-gold-500 text-ink-900 hover:scale-105'
+            ? 'bg-zinc-950 text-white rotate-90 scale-95'
+            : 'bg-zinc-950 text-white hover:bg-zinc-900 hover:scale-105'
         }`}
       >
         {open ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
@@ -164,14 +164,14 @@ export default function ChatWidget() {
       >
         <div className="flex flex-col h-full rounded-2xl bg-white shadow-lift border border-ink-100 overflow-hidden">
           {/* Header */}
-          <div className="relative bg-ink-900 text-canvas px-5 py-4 overflow-hidden">
-            <div className="absolute -top-12 -right-10 h-32 w-32 rounded-full bg-gold-400/30 blur-2xl" />
+          <div className="relative bg-zinc-950 text-white px-5 py-4 overflow-hidden">
+            <div className="absolute -top-12 -right-10 h-32 w-32 rounded-full bg-zinc-700/20 blur-2xl" />
             <div className="relative flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-br from-gold-300 to-gold-500 grid place-items-center text-ink-900 shrink-0">
+              <div className="h-10 w-10 rounded-full bg-white/10 grid place-items-center text-white shrink-0">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display text-lg leading-tight">Estatery Concierge</p>
+                <p className="font-display text-lg leading-tight">CrownKey Concierge</p>
                 <p className="text-xs text-ink-300 flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   AI assistant · Real-estate only
@@ -194,7 +194,7 @@ export default function ChatWidget() {
             ))}
             {busy && (
               <div className="flex items-start gap-2">
-                <div className="h-7 w-7 rounded-full bg-ink-900 text-gold-300 grid place-items-center shrink-0">
+                <div className="h-7 w-7 rounded-full bg-zinc-950 text-white grid place-items-center shrink-0">
                   <Bot className="h-4 w-4" />
                 </div>
                 <div className="rounded-2xl rounded-tl-sm bg-white border border-ink-100 px-3.5 py-2.5">
@@ -280,7 +280,7 @@ function Bubble({ role, content }: { role: 'user' | 'assistant'; content: string
   }
   return (
     <div className="flex items-start gap-2 animate-fade-up">
-      <div className="h-7 w-7 rounded-full bg-ink-900 text-gold-300 grid place-items-center shrink-0">
+      <div className="h-7 w-7 rounded-full bg-zinc-950 text-white grid place-items-center shrink-0">
         <Bot className="h-4 w-4" />
       </div>
       <div

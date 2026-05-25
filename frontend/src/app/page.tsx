@@ -3,8 +3,11 @@ import Link from 'next/link';
 import { Building2, ShieldCheck, Sparkles, Users, ArrowRight } from 'lucide-react';
 import HeroSearch from '@/components/HeroSearch';
 import PropertyCard from '@/components/property/PropertyCard';
+import FeaturedPropertiesCarousel from '@/components/FeaturedPropertiesCarousel';
+import LandingCTA from '@/components/LandingCTA';
 import { apiListProperties } from '@/lib/api';
 import type { PropertyListItem } from '@/lib/types';
+import FeaturedProperties from '@/components/FeaturedProperties';
 
 // Cache the landing page for 5 minutes — featured props rarely change.
 export const revalidate = 300;
@@ -18,20 +21,56 @@ async function getFeatured(): Promise<PropertyListItem[]> {
   }
 }
 
-const CITIES = [
-  { name: 'Mumbai', img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=70' },
-  { name: 'Bengaluru', img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=70' },
-  { name: 'Delhi', img: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=70' },
-  { name: 'Pune', img: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=70' },
-  { name: 'Hyderabad', img: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=70' },
-  { name: 'Chennai', img: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=70' },
+const PROPERTIES = [
+  {
+    image: "/property1.jpg",
+    city: "Miami, Florida",
+    price: "$5,80,000",
+  },
+  {
+    image: "/property2.jpg",
+    city: "Miami, Florida",
+    price: "$5,80,000",
+  },
+  {
+    image: "/property3.jpg",
+    city: "Seattle, Washington",
+    price: "$5,80,000",
+    featured: true,
+  },
+  {
+    image: "/property4.jpg",
+    city: "Miami, Florida",
+    price: "$5,80,000",
+  },
+  {
+    image: "/property5.jpg",
+    city: "Miami, Florida",
+    price: "$5,80,000",
+  },
 ];
 
-const VALUES = [
-  { icon: ShieldCheck, title: 'Verified Listings', desc: 'Every property is reviewed for accuracy before going live.' },
-  { icon: Users, title: 'Zero Broker Fees', desc: 'Connect directly with owners. No middlemen, no surprises.' },
-  { icon: Sparkles, title: 'Curated Premium', desc: 'Hand-picked properties with high-quality photos and details.' },
-  { icon: Building2, title: '50,000+ Listings', desc: 'India’s widest catalogue of homes, plots, and commercial spaces.' },
+const CITIES = [
+  {
+    name: "Mumbai",
+    img: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f"
+  },
+  {
+    name: "Bengaluru",
+    img: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2"
+  },
+  {
+    name: "Delhi",
+    img: "https://images.unsplash.com/photo-1587474260584-136574528ed5"
+  },
+  {
+    name: "Pune",
+    img: "https://images.unsplash.com/photo-1599661046289-e31897846e41"
+  },
+  {
+    name: "Hyderabad",
+    img: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23"
+  },
 ];
 
 export default async function HomePage() {
@@ -39,147 +78,238 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative min-h-[640px] overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80"
-          alt="Premium real estate"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-hero-gradient" />
-        <div className="container relative z-10 pt-24 pb-16 lg:pt-32 lg:pb-24">
-          <div className="max-w-2xl text-canvas animate-fade-up">
-            <span className="inline-flex items-center gap-2 bg-canvas/10 backdrop-blur border border-canvas/20 rounded-full px-3 py-1 text-xs font-medium">
-              <Sparkles className="h-3 w-3 text-gold-300" />
-              India's most trusted property platform
-            </span>
-            <h1 className="font-display mt-4 text-5xl md:text-6xl lg:text-7xl font-semibold text-canvas leading-[1.05]">
-              Find a home <br />
-              you'll <span className="text-gold-300 italic">love.</span>
-            </h1>
-            <p className="mt-5 text-lg text-ink-200 max-w-xl">
-              Explore over 50,000 verified properties across India. Buy, rent, or list — all without broker fees.
-            </p>
+      {/* HERO SECTION */}
+      <section className="relative h-[calc(100vh-4.5rem)] max-h-[850px] min-h-[600px] w-full overflow-hidden flex flex-col justify-between">
+        {/* Background Cover Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/hero-villa.png"
+            alt="Premium luxury real estate background"
+            fill
+            priority
+            className="object-cover"
+          />
+          {/* Ambient overlay gradient to secure high-contrast for white texts */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-black/55 z-10" />
+        </div>
+
+        {/* Content Container (Top-aligned) */}
+        <div className="container relative z-20 pt-16 md:pt-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Main Headline Column */}
+            <div className="lg:col-span-7">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6.5xl font-bold tracking-tight text-white leading-[1.08]">
+                We Specialize in <br />
+                All Aspects of Housing
+              </h1>
+            </div>
+
+            {/* Description Paragraph Column */}
+            <div className="lg:col-span-5 lg:pt-3">
+              <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed max-w-md">
+                CrownKey curates residential and commercial estates across premier destinations. Experience direct, verified property connections with zero brokerage friction.
+              </p>
+            </div>
           </div>
-          <div className="mt-10 max-w-3xl">
+        </div>
+
+        {/* Floating Search Filter Container (Centered relative to hero height) */}
+        <div className="container relative z-20 my-auto">
+          <div className="max-w-7xl mx-auto w-full">
             <HeroSearch />
           </div>
-          <div className="mt-8 flex gap-6 text-canvas/80 text-sm">
-            <div>
-              <p className="font-display text-2xl text-canvas">50K+</p>
-              <p>Active listings</p>
+        </div>
+
+        {/* Stats Section (Bottom-aligned) */}
+        <div className="container relative z-20 pb-10 md:pb-14 stats-fade-in">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-4xl">
+            {/* Stat 1 */}
+            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-xl bg-[#e55b3c]/15 border border-[#e55b3c]/25 flex items-center justify-center text-[#e55b3c] group-hover:scale-110 transition-transform duration-500 shrink-0">
+                <Building2 className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                  50k+
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                </p>
+                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Active listings</p>
+              </div>
             </div>
-            <div className="w-px bg-canvas/20" />
-            <div>
-              <p className="font-display text-2xl text-canvas">10+</p>
-              <p>Cities covered</p>
+
+            {/* Stat 2 */}
+            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1">
+              <div className="w-12 h-12 rounded-xl bg-sky-500/15 border border-sky-500/25 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-500 shrink-0">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                  10+
+                  <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                </p>
+                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Cities covered</p>
+              </div>
             </div>
-            <div className="w-px bg-canvas/20" />
-            <div>
-              <p className="font-display text-2xl text-canvas">24/7</p>
-              <p>Owner support</p>
+
+            {/* Stat 3 */}
+            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1 sm:col-span-2 md:col-span-1">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform duration-500 shrink-0">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                  24/7
+                  <span className="w-2 h-2 rounded-full bg-[#e55b3c] animate-pulse" />
+                </p>
+                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Owner support</p>
+              </div>
             </div>
           </div>
+          <style>{`
+            @keyframes fadeInRight {
+              from { opacity: 0; transform: translateX(-30px); }
+              to { opacity: 1; transform: translateX(0); }
+            }
+            .stats-fade-in {
+              animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+              opacity: 0;
+            }
+          `}</style>
         </div>
       </section>
 
       {/* FEATURED PROPERTIES */}
-      <section className="container py-20">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-2">Hand-picked</p>
-            <h2 className="font-display text-4xl text-ink-900">Featured properties</h2>
-          </div>
-          <Link href="/properties" className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-ink-700 hover:text-ink-900">
-            View all <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        {featured.length === 0 ? (
-          <div className="text-center py-12 text-ink-500">
-            No listings yet — run <code className="bg-ink-100 px-2 py-1 rounded">npm run seed</code> in the backend to populate.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featured.map((p, i) => (
-              <PropertyCard key={p.id} p={p} priority={i < 3} />
-            ))}
-          </div>
-        )}
+      <section className="container py-24">
+        <FeaturedPropertiesCarousel properties={featured} />
       </section>
 
-      {/* VALUES */}
-      <section className="bg-ink-50 py-20">
-        <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-2">Why Estatery</p>
-            <h2 className="font-display text-4xl text-ink-900">A better way to find your next address.</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VALUES.map((v) => (
-              <div key={v.title} className="card p-6 hover:shadow-lift transition-shadow">
-                <div className="h-11 w-11 rounded-lg bg-ink-900 text-gold-300 grid place-items-center mb-4">
-                  <v.icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-lg text-ink-900 mb-1.5">{v.title}</h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{v.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* CITIES */}
-      <section className="container py-20">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-2">Explore</p>
-          <h2 className="font-display text-4xl text-ink-900">Discover top cities</h2>
+
+      <FeaturedProperties />
+
+      <section className="container py-28">
+
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-xs uppercase tracking-[0.4em] text-zinc-500 mb-4">
+            Explore
+          </p>
+
+          <h2 className="text-5xl font-light text-zinc-950 tracking-tight">
+            Discover top cities
+          </h2>
+
+          <p className="mt-5 text-zinc-500">
+            Explore premium homes in India's most desirable locations
+          </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {CITIES.map((c) => (
+
+        <div className="grid grid-cols-12 gap-6">
+
+          {CITIES.map((city, index) => (
             <Link
-              key={c.name}
-              href={`/properties?city=${encodeURIComponent(c.name)}`}
-              className="group relative aspect-[3/4] overflow-hidden rounded-xl"
+              key={city.name}
+              href={`/properties?city=${city.name}`}
+              className={`
+          group
+          relative
+          overflow-hidden
+          rounded-[15px]
+          shadow-sm
+          hover:shadow-2xl
+          transition-all
+          duration-700
+
+          ${index === 0
+                  ? "col-span-12 md:col-span-6 row-span-2 h-[520px]"
+                  : "col-span-6 md:col-span-3 h-[250px]"
+                }
+        `}
             >
+
               <Image
-                src={c.img}
-                alt={c.name}
+                src={city.img}
+                alt={city.name}
                 fill
-                sizes="(max-width: 768px) 50vw, 16vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                className="
+            object-cover
+            transition-transform
+            duration-[1500ms]
+            group-hover:scale-110
+          "
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3">
-                <p className="font-display text-xl text-canvas">{c.name}</p>
+
+              {/* Overlay */}
+              <div
+                className="
+            absolute
+            inset-0
+            bg-gradient-to-t
+            from-black/80
+            via-black/20
+            to-transparent
+          "
+              />
+
+              {/* Glass Badge */}
+              <div
+                className="
+            absolute
+            top-5
+            left-5
+            px-4
+            py-2
+            rounded-full
+            backdrop-blur-xl
+            bg-white/10
+            border
+            border-white/20
+            text-white
+            text-xs
+          "
+              >
+                {120 + index * 20}+ Properties
               </div>
+
+              {/* Content */}
+              <div className="absolute bottom-0 p-7 text-white">
+
+                <h3
+                  className="
+              text-3xl
+              font-semibold
+              mb-2
+              group-hover:translate-y-[-4px]
+              transition
+            "
+                >
+                  {city.name}
+                </h3>
+
+                <p
+                  className="
+              opacity-0
+              translate-y-4
+              group-hover:opacity-100
+              group-hover:translate-y-0
+              transition-all
+              duration-500
+            "
+                >
+                  Discover premium apartments,
+                  villas and luxury spaces
+                </p>
+
+              </div>
+
             </Link>
           ))}
+
         </div>
+
       </section>
 
-      {/* CTA */}
-      <section className="container pb-20">
-        <div className="relative rounded-3xl overflow-hidden bg-ink-900 px-8 md:px-16 py-16 md:py-20">
-          <div className="absolute -top-20 -right-20 w-80 h-80 bg-gold-400/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-gold-400/10 rounded-full blur-3xl" />
-          <div className="relative max-w-2xl">
-            <h2 className="font-display text-4xl md:text-5xl text-canvas">List your property in minutes.</h2>
-            <p className="mt-4 text-ink-300 text-lg">
-              Reach thousands of buyers and renters every day. No commission. No hidden charges.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/dashboard/new" className="btn-gold">
-                Post a listing <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/register" className="btn bg-canvas/10 text-canvas border border-canvas/20 hover:bg-canvas/20">
-                Create free account
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA SECTION */}
+      <LandingCTA />
     </>
   );
 }
