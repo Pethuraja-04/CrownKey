@@ -60,6 +60,7 @@ async function request<T>(path: string, opts: ReqOptions = {}): Promise<T> {
     ...rest,
     body,
     headers: finalHeaders,
+    credentials: 'include',
     ...(next ? { next } : {}),
   });
 
@@ -72,54 +73,34 @@ async function request<T>(path: string, opts: ReqOptions = {}): Promise<T> {
       path !== '/api/auth/login' &&
       path !== '/api/auth/register'
     ) {
-      const STORAGE_KEY = 'realestate.auth.v1';
-      let stored = null;
-      if (typeof window !== 'undefined') {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          stored = raw ? JSON.parse(raw) : null;
-        } catch {}
-      }
+      try {
+        const refreshRes = await apiRefresh();
+        const newAuthData = { user: refreshRes.data.user };
 
-      if (stored?.refreshToken) {
-        try {
-          const refreshRes = await apiRefresh(stored.refreshToken);
-          const newAuthData = {
-            user: refreshRes.data.user,
-            accessToken: refreshRes.data.accessToken,
-            refreshToken: refreshRes.data.refreshToken,
-          };
-
-          if (typeof window !== 'undefined') {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(newAuthData));
-            window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: newAuthData }));
-          }
-
-          // Retry the request with the new access token
-          const retryHeaders = {
-            ...finalHeaders,
-            Authorization: `Bearer ${newAuthData.accessToken}`,
-          };
-          const retryRes = await fetch(url, {
-            ...rest,
-            body,
-            headers: retryHeaders,
-            ...(next ? { next } : {}),
-          });
-          const retryJson = await retryRes.json().catch(() => ({}));
-          if (!retryRes.ok || retryJson.success === false) {
-            const err = retryJson.error || { message: 'Request failed', code: 'UNKNOWN' };
-            throw new ApiError(err.message, retryRes.status, err.code, err.details);
-          }
-          return retryJson as T;
-        } catch (refreshErr) {
-          // Refresh failed (token expired/revoked) - clear session
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem(STORAGE_KEY);
-            window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: null }));
-          }
-          throw refreshErr;
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: newAuthData }));
         }
+
+        // Retry the request
+        const retryRes = await fetch(url, {
+          ...rest,
+          body,
+          headers: finalHeaders,
+          credentials: 'include',
+          ...(next ? { next } : {}),
+        });
+        const retryJson = await retryRes.json().catch(() => ({}));
+        if (!retryRes.ok || retryJson.success === false) {
+          const err = retryJson.error || { message: 'Request failed', code: 'UNKNOWN' };
+          throw new ApiError(err.message, retryRes.status, err.code, err.details);
+        }
+        return retryJson as T;
+      } catch (refreshErr) {
+        // Refresh failed (token expired/revoked) - clear session
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: null }));
+        }
+        throw refreshErr;
       }
     }
 
@@ -131,27 +112,26 @@ async function request<T>(path: string, opts: ReqOptions = {}): Promise<T> {
 
 // --- Auth ---
 export const apiRegister = (body: { name: string; email: string; password: string; phone?: string }) =>
-  request<{ success: true; data: { user: User; accessToken: string; refreshToken: string } }>(
+  request<{ success: true; data: { user: User } }>(
     '/api/auth/register',
     { method: 'POST', body: JSON.stringify(body) },
   );
 
 export const apiLogin = (body: { email: string; password: string }) =>
-  request<{ success: true; data: { user: User; accessToken: string; refreshToken: string } }>(
+  request<{ success: true; data: { user: User } }>(
     '/api/auth/login',
     { method: 'POST', body: JSON.stringify(body) },
   );
 
-export const apiRefresh = (refreshToken: string) =>
-  request<{ success: true; data: { user: User; accessToken: string; refreshToken: string } }>(
+export const apiRefresh = () =>
+  request<{ success: true; data: { user: User } }>(
     '/api/auth/refresh',
-    { method: 'POST', body: JSON.stringify({ refreshToken }) },
+    { method: 'POST' },
   );
 
-export const apiLogout = (refreshToken: string) =>
+export const apiLogout = () =>
   request<{ success: true }>('/api/auth/logout', {
     method: 'POST',
-    body: JSON.stringify({ refreshToken }),
   });
 
 export const apiMe = (token: string) =>

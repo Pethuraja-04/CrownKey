@@ -3,12 +3,17 @@ const AppError = require('../utils/AppError');
 
 // Hard auth — fail if no/invalid token.
 const requireAuth = (req, _res, next) => {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith('Bearer ')) {
+  let token = req.cookies?.accessToken;
+  if (!token) {
+    const header = req.headers.authorization;
+    if (header && header.startsWith('Bearer ')) token = header.slice(7);
+  }
+  
+  if (!token) {
     return next(AppError.unauthorized('Missing bearer token'));
   }
   try {
-    const payload = verifyAccess(header.slice('Bearer '.length));
+    const payload = verifyAccess(token);
     req.user = { id: payload.sub, role: payload.role, email: payload.email };
     next();
   } catch (err) {
@@ -18,10 +23,15 @@ const requireAuth = (req, _res, next) => {
 
 // Soft auth — populate req.user if token is present and valid; otherwise continue.
 const optionalAuth = (req, _res, next) => {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith('Bearer ')) return next();
+  let token = req.cookies?.accessToken;
+  if (!token) {
+    const header = req.headers.authorization;
+    if (header && header.startsWith('Bearer ')) token = header.slice(7);
+  }
+  
+  if (!token) return next();
   try {
-    const payload = verifyAccess(header.slice('Bearer '.length));
+    const payload = verifyAccess(token);
     req.user = { id: payload.sub, role: payload.role, email: payload.email };
   } catch {
     // ignore — treat as anonymous

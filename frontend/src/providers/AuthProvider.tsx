@@ -9,13 +9,11 @@ import {
   useState,
   ReactNode,
 } from 'react';
-import { apiLogin, apiLogout, apiMe, apiRegister, apiRefresh, AUTH_REFRESH_EVENT } from '@/lib/api';
+import { apiLogin, apiLogout, apiMe, apiRegister, AUTH_REFRESH_EVENT } from '@/lib/api';
 import type { User } from '@/lib/types';
 
 interface AuthState {
   user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
   loading: boolean;
 }
 
@@ -27,33 +25,15 @@ interface AuthCtx extends AuthState {
   authMode: 'login' | 'register';
   openAuth: (mode?: 'login' | 'register') => void;
   closeAuth: () => void;
+  // Included for backwards compatibility with WishlistProvider, though tokens aren't needed anymore
+  accessToken: string | null;
 }
 
 const Ctx = createContext<AuthCtx | null>(null);
 
-const STORAGE_KEY = 'realestate.auth.v1';
-
-const readStored = (): Pick<AuthState, 'user' | 'accessToken' | 'refreshToken'> | null => {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-};
-
-const writeStored = (s: Pick<AuthState, 'user' | 'accessToken' | 'refreshToken'> | null) => {
-  if (typeof window === 'undefined') return;
-  if (!s) localStorage.removeItem(STORAGE_KEY);
-  else localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-};
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
-    accessToken: null,
-    refreshToken: null,
     loading: true,
   });
 
@@ -73,18 +53,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handleRefresh = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      if (detail) {
+      if (detail && detail.user) {
         setState({
           user: detail.user,
-          accessToken: detail.accessToken,
-          refreshToken: detail.refreshToken,
           loading: false,
         });
       } else {
         setState({
           user: null,
-          accessToken: null,
-          refreshToken: null,
           loading: false,
         });
       }
@@ -97,60 +73,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const stored = readStored();
-    if (!stored?.accessToken) {
-      setState((s) => ({ ...s, loading: false }));
-      return;
-    }
-    // Validate token by hitting /me — if it fails, try refreshing.
-    apiMe(stored.accessToken)
-      .then((r) => setState({ ...stored, user: r.data, loading: false }))
+    // Just hit /me on mount. Cookies are handled by browser.
+    apiMe('')
+      .then((r) => setState({ user: r.data, loading: false }))
       .catch(() => {
-        if (stored.refreshToken) {
-          apiRefresh(stored.refreshToken)
-            .then((r) => {
-              const next = {
-                user: r.data.user,
-                accessToken: r.data.accessToken,
-                refreshToken: r.data.refreshToken,
-              };
-              writeStored(next);
-              setState({ ...next, loading: false });
-            })
-            .catch(() => {
-              writeStored(null);
-              setState({ user: null, accessToken: null, refreshToken: null, loading: false });
-            });
-        } else {
-          writeStored(null);
-          setState({ user: null, accessToken: null, refreshToken: null, loading: false });
-        }
+        setState({ user: null, loading: false });
       });
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
     const { data } = await apiLogin({ email, password });
-    const next = { user: data.user, accessToken: data.accessToken, refreshToken: data.refreshToken };
-    writeStored(next);
-    setState({ ...next, loading: false });
+    setState({ user: data.user, loading: false });
     setAuthOpen(false); // Close auth modal on successful login
   }, []);
 
   const register = useCallback(async (body: { name: string; email: string; password: string; phone?: string }) => {
     const { data } = await apiRegister(body);
-    const next = { user: data.user, accessToken: data.accessToken, refreshToken: data.refreshToken };
-    writeStored(next);
-    setState({ ...next, loading: false });
+    setState({ user: data.user, loading: false });
     setAuthOpen(false); // Close auth modal on successful register
   }, []);
 
   const logout = useCallback(async () => {
-    if (state.refreshToken) {
-      try { await apiLogout(state.refreshToken); } catch { /* ignore */ }
-    }
-    writeStored(null);
-    setState({ user: null, accessToken: null, refreshToken: null, loading: false });
-  }, [state.refreshToken]);
+    try { await apiLogout(); } catch { /* ignore */ }
+    setState({ user: null, loading: false });
+  }, []);
 
   const value = useMemo<AuthCtx>(
     () => ({
@@ -162,6 +108,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       authMode,
       openAuth,
       closeAuth,
+      // Pass a dummy token so WishlistProvider doesn't break assuming it's logged out if missing
+      accessToken: state.user ? 'cookie-based' : null,
     }),
     [state, login, register, logout, authOpen, authMode, openAuth, closeAuth],
   );
