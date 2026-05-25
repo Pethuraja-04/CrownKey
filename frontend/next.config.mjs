@@ -5,6 +5,10 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'plus.unsplash.com' },
+      {
+        protocol: "https",
+        hostname: "crownkey.onrender.com",
+      },
       { protocol: 'http', hostname: 'localhost', port: '4000', pathname: '/uploads/**' },
       { protocol: 'http', hostname: 'localhost' },
     ],

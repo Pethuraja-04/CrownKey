@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { AlertCircle, Image as ImageIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Property } from '@/lib/types';
 import ImageUploader from './ImageUploader';
 
@@ -85,7 +86,6 @@ interface Props {
 export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) {
   const [form, setForm] = useState<FormState>(fromProperty(initial));
   const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState('');
   const [images, setImages] = useState<{ keepUrls: string[]; files: File[] }>({
     keepUrls: initial?.images?.map((i) => i.url) || [],
     files: [],
@@ -101,11 +101,11 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setBusy(true);
-    setErr('');
     try {
       const isPg = form.type === 'PG';
-      // On create: require at least one image so listings always have a cover.
-      if (!initial && images.keepUrls.length === 0 && images.files.length === 0) {
+      
+      // Require at least one image (both on create and edit).
+      if (images.keepUrls.length === 0 && images.files.length === 0) {
         throw new Error('Please add at least one photo for your listing.');
       }
       await onSubmit({
@@ -130,8 +130,9 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
         },
         files: images.files,
       });
+      toast.success('Property saved successfully!');
     } catch (e: any) {
-      setErr(e?.message || 'Save failed');
+      toast.error(e?.message || 'Save failed. Please check the fields.');
     } finally {
       setBusy(false);
     }
@@ -284,13 +285,6 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
           onChange={setImages}
         />
       </div>
-
-      {err && (
-        <div className="flex items-start gap-2 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-md p-3">
-          <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
-          <span>{err}</span>
-        </div>
-      )}
 
       <div className="flex justify-end gap-3">
         <button type="submit" disabled={busy} className="btn-gold">

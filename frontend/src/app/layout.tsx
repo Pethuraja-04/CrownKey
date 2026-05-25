@@ -7,6 +7,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BackgroundDecor from '@/components/layout/BackgroundDecor';
 import ChatWidget from '@/components/chat/ChatWidget';
+import { Toaster } from 'sonner';
 
 const poppins = Poppins({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="flex-1 relative">{children}</main>
             <Footer />
             <ChatWidget />
+            <Toaster position="top-center" richColors />
           </WishlistProvider>
         </AuthProvider>
       </body>
