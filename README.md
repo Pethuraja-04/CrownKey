@@ -46,11 +46,7 @@ npm run dev
 
 Frontend boots at **http://localhost:3000**
 
-### Demo credentials
-```
-email:    demo@realestate.dev
-password: Password123!
-```
+
 
 ---
 
