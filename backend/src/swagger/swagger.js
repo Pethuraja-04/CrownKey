@@ -16,6 +16,7 @@ const options = {
         '- Indexed search & filter: city, type, listing type, BHK / room type, bathrooms, price range, area range, furnishing, amenities (multi-select), verified-only toggle, and recency window',
         '- Owner-scoped inquiries with per-property dedupe and spam rate-limiting',
         '- Per-user wishlist (save / unsave / list / id-hydration)',
+        '- Property reviews & star ratings — one review per user per property, with edit and delete',
         '- Groq-backed AI concierge restricted to real-estate topics',
       ].join('\n'),
     },
@@ -66,6 +67,25 @@ const options = {
               },
             },
           ],
+        },
+        Review: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', format: 'uuid' },
+            propertyId: { type: 'string', format: 'uuid' },
+            userId: { type: 'string', format: 'uuid' },
+            rating: { type: 'integer', minimum: 1, maximum: 5, example: 4 },
+            comment: { type: 'string', example: 'Great property with excellent connectivity.' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+            user: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', format: 'uuid' },
+                name: { type: 'string', example: 'Aarav Sharma' },
+              },
+            },
+          },
         },
         ErrorResponse: {
           type: 'object',

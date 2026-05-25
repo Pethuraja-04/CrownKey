@@ -27,7 +27,7 @@ interface WishlistCtx {
 const Ctx = createContext<WishlistCtx | null>(null);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const { user, accessToken, loading: authLoading } = useAuth();
+  const { user, accessToken, loading: authLoading, openAuth } = useAuth();
   const router = useRouter();
   const [ids, setIds] = useState<Set<string>>(() => new Set());
   const [loading, setLoading] = useState(false);
@@ -79,8 +79,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
       if (!user || !accessToken) {
         if (loginRedirect && typeof window !== 'undefined') {
-          const next = `${window.location.pathname}${window.location.search}`;
-          router.push(`/login?next=${encodeURIComponent(next)}`);
+          openAuth('login');
         }
         return null;
       }

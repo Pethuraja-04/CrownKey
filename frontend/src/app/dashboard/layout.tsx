@@ -15,14 +15,17 @@ const nav = [
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, loading, openAuth } = useAuth();
   const { count: wishlistCount } = useWishlist();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!loading && !user) router.replace(`/login?next=${encodeURIComponent(pathname)}`);
-  }, [user, loading, router, pathname]);
+    if (!loading && !user) {
+      router.replace('/');
+      openAuth('login');
+    }
+  }, [user, loading, router, openAuth]);
 
   if (loading || !user) {
     return (

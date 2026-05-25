@@ -195,11 +195,7 @@ export default function AuthModal() {
             </button>
           </p>
 
-          <div className="mt-8 text-xs text-zinc-500 text-center border-t border-zinc-100 pt-6">
-            <span className="font-semibold text-zinc-700">Demo Account:</span>{' '}
-            <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-800">demo@realestate.dev</code> /{' '}
-            <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-800">Password123!</code>
-          </div>
+         
         </div>
       </div>
 
