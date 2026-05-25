@@ -192,7 +192,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-12 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-12 gap-6">
           {CITIES.map((city, index) => (
             <Link
               key={city.name}
