@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState, Suspense } from 'react';
 import {
@@ -94,18 +95,18 @@ export default function Header() {
   return (
     <>
       {/* ─── Announcement bar ────────────────────────────────────────── */}
-      <div className="hidden md:block bg-zinc-950 text-zinc-400 text-[11px]">
+      <div className="hidden md:block bg-luxury-navy text-zinc-300 text-[11px] border-b border-white/10">
         <div className="container h-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <a href="tel:+919000000000" className="flex items-center gap-1.5 hover:text-white transition-colors">
               <Phone className="h-3 w-3" /> +91 90000 00000
             </a>
-            <span className="text-zinc-700">·</span>
+            <span className="text-zinc-500">·</span>
             <span>Mon–Sun · 9 AM – 9 PM IST</span>
           </div>
           <div className="flex items-center gap-1.5 text-white/80">
-            <Sparkles className="h-3 w-3 text-[#e55b3c]" />
-            <span>Zero brokerage on every listing · Direct from owner</span>
+            <Sparkles className="h-3.5 w-3.5 text-luxury-gold animate-pulse" />
+            <span className="font-medium">Zero brokerage on every listing · Direct from owner</span>
           </div>
         </div>
       </div>
@@ -115,20 +116,20 @@ export default function Header() {
         <div 
           className={cn(
             "mx-auto max-w-7xl w-full rounded-full flex items-center justify-between h-14 md:h-16 px-6 pointer-events-auto border transition-all duration-500 ease-out",
-            scrolled 
-              ? "bg-white/80 backdrop-blur-md border-zinc-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.06)]" 
-              : "bg-zinc-950/40 backdrop-blur-md border-white/10 shadow-sm"
+            "bg-white/85 backdrop-blur-xl border-white/50 shadow-[0_8px_30px_rgba(11,31,58,0.06)]"
           )}
         >
           {/* Brand Logo (Left) */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <div className="h-8 w-8 rounded-full bg-[#e55b3c] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-12">
-              <Key className="h-4 w-4" />
+            <div className="relative h-8 w-8 transition-transform duration-300 group-hover:scale-110">
+              <Image
+                src="/logo-navy.png"
+                alt="CrownKey Logo"
+                fill
+                className="object-contain"
+              />
             </div>
-            <span className={cn(
-              "font-display text-xl font-black tracking-tight transition-colors duration-300", 
-              scrolled ? "text-zinc-950" : "text-white"
-            )}>
+            <span className="font-display text-xl font-extrabold tracking-tight text-luxury-navy">
               CrownKey
             </span>
           </Link>
@@ -150,12 +151,7 @@ export default function Header() {
             <button
               onClick={() => setSearchOpen((v) => !v)}
               aria-label="Search"
-              className={cn(
-                "p-2 rounded-full transition-all border",
-                scrolled 
-                  ? "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50 border-zinc-200/50" 
-                  : "text-zinc-200 hover:text-white hover:bg-white/10 border-white/10"
-              )}
+              className="p-2 rounded-full transition-all border text-luxury-navy hover:bg-zinc-50 border-zinc-200/50"
             >
               <Search className="h-4 w-4" />
             </button>
@@ -170,27 +166,22 @@ export default function Header() {
                 }
               }}
               aria-label={wishlistCount > 0 ? `Wishlist (${wishlistCount} saved)` : 'Wishlist'}
-              className={cn(
-                "relative p-2 rounded-full transition-all border",
-                scrolled 
-                  ? "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50 border-zinc-200/50" 
-                  : "text-zinc-200 hover:text-white hover:bg-white/10 border-white/10"
-              )}
+              className="relative p-2 rounded-full transition-all border text-luxury-navy hover:bg-zinc-50 border-zinc-200/50"
             >
               <Heart className={cn('h-4 w-4', wishlistCount > 0 && 'fill-rose-500 text-rose-500')} />
               {wishlistCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full bg-rose-500 text-white text-[10px] font-bold leading-none">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full bg-luxury-navy text-white text-[10px] font-bold leading-none">
                   {wishlistCount > 99 ? '99+' : wishlistCount}
                 </span>
               )}
             </Link>
 
-            <div className={cn("w-px h-5 mx-1", scrolled ? "bg-zinc-200" : "bg-white/10")} />
+            <div className="w-px h-5 mx-1 bg-zinc-200" />
 
             {!loading && !user && (
               <button
                 onClick={() => openAuth('login')}
-                className="bg-[#e55b3c] hover:bg-[#d44a2c] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm flex items-center gap-1 active:scale-95"
+                className="bg-luxury-navy hover:bg-luxury-deep text-white text-xs font-bold px-5 py-2.5 rounded-[14px] transition-all shadow-md flex items-center gap-1.5 active:scale-95"
               >
                 <span>Get started</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -201,22 +192,19 @@ export default function Header() {
               <>
                 <Link 
                   href="/dashboard/new" 
-                  className="bg-[#e55b3c] hover:bg-[#d44a2c] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm flex items-center gap-1 active:scale-95"
+                  className="bg-luxury-navy hover:bg-luxury-deep text-white text-xs font-bold px-4 py-2.5 rounded-[14px] transition-all shadow-md flex items-center gap-1 active:scale-95"
                 >
                   <PlusCircle className="h-3.5 w-3.5" /> Post property
                 </Link>
                 <div className="relative ml-1">
                   <button
                     onClick={() => setUserMenu((v) => !v)}
-                    className={cn(
-                      "flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full border transition-colors",
-                      scrolled ? "border-zinc-200 bg-white hover:border-zinc-400" : "border-white/10 bg-white/5 hover:border-white/30"
-                    )}
+                    className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full border border-zinc-200 bg-white hover:border-zinc-400 transition-colors"
                   >
-                    <div className="h-7 w-7 rounded-full bg-zinc-900 text-white grid place-items-center text-xs font-bold">
+                    <div className="h-7 w-7 rounded-full bg-luxury-navy text-white grid place-items-center text-xs font-bold">
                       {user.name.slice(0, 1).toUpperCase()}
                     </div>
-                    <ChevronDown className={cn("h-3 w-3", scrolled ? "text-zinc-500" : "text-zinc-300")} />
+                    <ChevronDown className="h-3 w-3 text-zinc-500" />
                   </button>
 
                   {userMenu && (
@@ -249,10 +237,7 @@ export default function Header() {
 
           {/* Mobile menu toggle */}
           <button
-            className={cn(
-              "lg:hidden p-2 rounded-full transition-colors",
-              scrolled ? "text-zinc-900 hover:bg-zinc-100" : "text-white hover:bg-white/10"
-            )}
+            className="lg:hidden p-2 rounded-full transition-colors text-luxury-navy hover:bg-zinc-100"
             onClick={() => setMobile((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -286,7 +271,7 @@ export default function Header() {
                   placeholder="Search by locality, project, or BHK…"
                   className="flex-1 bg-transparent outline-none text-base text-zinc-900 placeholder:text-zinc-400"
                 />
-                <button type="submit" className="bg-[#e55b3c] hover:bg-[#d44a2c] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm">Search</button>
+                <button type="submit" className="bg-luxury-navy hover:bg-luxury-deep text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-sm">Search</button>
                 <button type="button" onClick={() => setSearchOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full">
                   <X className="h-4 w-4 text-zinc-500" />
                 </button>
@@ -310,14 +295,21 @@ export default function Header() {
 
       {/* ─── Mobile menu ────────────────────────────────────────────── */}
       {mobile && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-canvas overflow-y-auto animate-fade-up">
-          <div className="sticky top-0 bg-canvas border-b border-ink-100">
+        <div className="lg:hidden fixed inset-0 z-50 bg-white overflow-y-auto animate-fade-up">
+          <div className="sticky top-0 bg-white border-b border-zinc-100">
             <div className="container h-16 flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2" onClick={() => setMobile(false)}>
-                <div className="h-9 w-9 rounded-lg bg-zinc-950 text-white grid place-items-center font-display text-lg font-bold">C</div>
-                <span className="font-display text-xl font-semibold text-zinc-950">CrownKey</span>
+                <div className="relative h-9 w-9">
+                  <Image
+                    src="/logo-navy.png"
+                    alt="CrownKey Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <span className="font-display text-xl font-semibold text-luxury-navy">CrownKey</span>
               </Link>
-              <button onClick={() => setMobile(false)} className="p-2 rounded-md hover:bg-ink-100" aria-label="Close">
+              <button onClick={() => setMobile(false)} className="p-2 rounded-md hover:bg-zinc-100" aria-label="Close">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -325,7 +317,7 @@ export default function Header() {
 
           <div className="container py-6 space-y-6">
             <form onSubmit={submitSearch} className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <input
                 className="input pl-10 h-12 text-base"
                 placeholder="Search properties…"
@@ -335,7 +327,7 @@ export default function Header() {
             </form>
 
             <div>
-              <p className="text-[11px] uppercase tracking-wider text-ink-400 font-semibold mb-2">Browse</p>
+              <p className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mb-2">Browse</p>
               <div className="space-y-1">
                 <MobileLink href="/properties?listingType=SALE" label="Buy a home" icon={Building2} />
                 <MobileLink href="/properties?listingType=RENT" label="Rent a home" icon={Home} />
@@ -347,13 +339,13 @@ export default function Header() {
             </div>
 
             <div>
-              <p className="text-[11px] uppercase tracking-wider text-ink-400 font-semibold mb-2">Top cities</p>
+              <p className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mb-2">Top cities</p>
               <div className="grid grid-cols-2 gap-2">
                 {TOP_CITIES.map((c) => (
                   <Link
                     key={c}
                     href={`/properties?city=${encodeURIComponent(c)}`}
-                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-ink-100 hover:border-ink-300 hover:bg-white transition-colors text-sm text-ink-800"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50 transition-colors text-sm text-zinc-800"
                     onClick={() => setMobile(false)}
                   >
                     <MapPin className="h-3.5 w-3.5 text-zinc-500" /> {c}
@@ -362,11 +354,11 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-ink-100 space-y-2">
+            <div className="pt-4 border-t border-zinc-100 space-y-2">
               {user ? (
                 <>
-                  <Link href="/dashboard/new" className="bg-[#e55b3c] hover:bg-[#d44a2c] text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2" onClick={() => setMobile(false)}>
-                    <PlusCircle className="h-4 w-4" /> Post property
+                  <Link href="/dashboard/new" className="bg-luxury-navy hover:bg-luxury-deep text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2" onClick={() => setMobile(false)}>
+                    <PlusCircle className="h-4 w-4 text-luxury-gold" /> Post property
                   </Link>
                   <Link href="/dashboard" className="btn-outline w-full py-3 justify-center" onClick={() => setMobile(false)}>
                     <LayoutDashboard className="h-4 w-4" /> Dashboard
@@ -379,7 +371,7 @@ export default function Header() {
                 <>
                   <button
                     onClick={() => { setMobile(false); openAuth('register'); }}
-                    className="bg-[#e55b3c] hover:bg-[#d44a2c] text-white text-sm font-bold w-full py-3 rounded-xl"
+                    className="bg-luxury-navy hover:bg-luxury-deep text-white text-sm font-bold w-full py-3 rounded-xl"
                   >
                     Get started
                   </button>
@@ -453,12 +445,8 @@ function NavLink({ href, label, scrolled, active }: { href: string; label: strin
       className={cn(
         'px-4 py-2 rounded-full text-xs font-bold transition-all duration-300',
         active
-          ? scrolled
-            ? 'bg-zinc-100 text-zinc-950 shadow-sm'
-            : 'bg-white/15 text-white shadow-sm'
-          : scrolled
-            ? 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
-            : 'text-zinc-200 hover:text-white hover:bg-white/10',
+          ? 'bg-luxury-navy text-white shadow-sm'
+          : 'text-luxury-navy/80 hover:text-luxury-navy hover:bg-luxury-navy/5',
       )}
     >
       {label}
@@ -487,12 +475,8 @@ function MegaTrigger({
       className={cn(
         'flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300',
         active
-          ? scrolled
-            ? 'bg-zinc-100 text-zinc-950 shadow-sm'
-            : 'bg-white/15 text-white shadow-sm'
-          : scrolled
-            ? 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
-            : 'text-zinc-200 hover:text-white hover:bg-white/10',
+          ? 'bg-luxury-navy text-white shadow-sm'
+          : 'text-luxury-navy/80 hover:text-luxury-navy hover:bg-luxury-navy/5',
       )}
     >
       <span>{label}</span>
@@ -514,7 +498,7 @@ function MegaPanel({
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className="absolute left-4 right-4 md:left-8 md:right-8 mt-2 max-w-7xl mx-auto bg-white border border-zinc-200/60 rounded-[2rem] shadow-xl animate-fade-up overflow-hidden z-50 pointer-events-auto"
+      className="absolute left-4 right-4 md:left-8 md:right-8 mt-2 max-w-7xl mx-auto bg-white/95 backdrop-blur-xl border border-zinc-200/50 rounded-[2rem] shadow-xl animate-fade-up overflow-hidden z-50 pointer-events-auto"
     >
       <div className="py-8 px-8">{children}</div>
     </div>
@@ -534,8 +518,8 @@ function MegaContent({
     <div className="grid grid-cols-12 gap-8">
       {/* Property types */}
       <div className="col-span-12 md:col-span-7">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-[#e55b3c] font-semibold mb-1">{heading}</p>
-        <h3 className="font-display text-xl text-zinc-900 mb-4">By property type</h3>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-luxury-gold font-bold mb-1">{heading}</p>
+        <h3 className="font-display text-xl text-luxury-navy mb-4 font-semibold">By property type</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {types.map((t) => {
             const Icon = t.icon;
@@ -545,15 +529,15 @@ function MegaContent({
                 href={`/properties?listingType=${listingType}&type=${t.type}`}
                 className="group flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-50 transition-colors"
               >
-                <div className="h-9 w-9 rounded-lg bg-zinc-100 group-hover:bg-zinc-950 group-hover:text-white text-zinc-700 grid place-items-center transition-colors shrink-0">
+                <div className="h-9 w-9 rounded-lg bg-zinc-100 group-hover:bg-luxury-navy group-hover:text-white text-zinc-700 grid place-items-center transition-colors shrink-0">
                   <Icon className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-zinc-900 group-hover:text-zinc-900 flex items-center gap-1">
+                  <p className="text-sm font-semibold text-luxury-navy flex items-center gap-1">
                     {t.label}
-                    <ArrowUpRight className="h-3 w-3 text-zinc-300 group-hover:text-[#e55b3c] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowUpRight className="h-3 w-3 text-zinc-300 group-hover:text-luxury-gold group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
                   </p>
-                  <p className="text-xs text-zinc-500 line-clamp-1">{t.blurb}</p>
+                  <p className="text-xs text-luxury-muted line-clamp-1">{t.blurb}</p>
                 </div>
               </Link>
             );
@@ -563,16 +547,16 @@ function MegaContent({
 
       {/* Top cities */}
       <div className="col-span-6 md:col-span-3">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-[#e55b3c] font-semibold mb-1">Explore</p>
-        <h3 className="font-display text-xl text-zinc-900 mb-4">Top cities</h3>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-luxury-gold font-bold mb-1">Explore</p>
+        <h3 className="font-display text-xl text-luxury-navy mb-4 font-semibold">Top cities</h3>
         <ul className="space-y-1.5">
           {TOP_CITIES.map((c) => (
             <li key={c}>
               <Link
                 href={`/properties?listingType=${listingType}&city=${encodeURIComponent(c)}`}
-                className="text-sm text-zinc-700 hover:text-zinc-900 hover:underline decoration-[#e55b3c] underline-offset-4 inline-flex items-center gap-1.5"
+                className="text-sm text-luxury-muted hover:text-luxury-navy hover:underline decoration-luxury-gold underline-offset-4 inline-flex items-center gap-1.5"
               >
-                <MapPin className="h-3 w-3 text-zinc-400 animate-pulse" /> {c}
+                <MapPin className="h-3 w-3 text-luxury-gold animate-pulse" /> {c}
               </Link>
             </li>
           ))}
@@ -581,16 +565,16 @@ function MegaContent({
 
       {/* Featured CTA */}
       <div className="col-span-6 md:col-span-2">
-        <div className="relative rounded-2xl bg-zinc-950 text-white p-5 h-full overflow-hidden">
-          <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#e55b3c]/20 blur-2xl" />
-          <Sparkles className="h-5 w-5 text-[#e55b3c] mb-3 animate-bounce" />
-          <p className="font-display text-lg leading-tight mb-2">
+        <div className="relative rounded-2xl bg-luxury-navy text-white p-5 h-full overflow-hidden border border-white/5">
+          <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-luxury-gold/20 blur-2xl" />
+          <Sparkles className="h-5 w-5 text-luxury-gold mb-3 animate-bounce" />
+          <p className="font-display text-lg leading-tight mb-2 font-medium">
             Premium homes from ₹2 Cr+
           </p>
           <p className="text-xs text-zinc-400 mb-4">Hand-picked luxury listings.</p>
           <Link
             href={`/properties?listingType=${listingType}&minPrice=20000000&sort=price_desc`}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[#e55b3c] hover:text-white"
+            className="inline-flex items-center gap-1 text-xs font-bold text-luxury-gold hover:text-white"
           >
             Browse premium <ArrowUpRight className="h-3 w-3" />
           </Link>
@@ -616,12 +600,12 @@ function MenuItem({
       href={href}
       className="flex items-start gap-2.5 px-3 py-2 rounded-xl hover:bg-zinc-50 transition-colors group"
     >
-      <div className="h-8 w-8 rounded-lg bg-zinc-100 group-hover:bg-zinc-950 group-hover:text-white text-zinc-700 grid place-items-center transition-colors shrink-0">
+      <div className="h-8 w-8 rounded-lg bg-zinc-100 group-hover:bg-luxury-navy group-hover:text-white text-zinc-700 grid place-items-center transition-colors shrink-0">
         <Icon className="h-3.5 w-3.5" />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-zinc-900 leading-tight">{label}</p>
-        <p className="text-xs text-zinc-500">{sub}</p>
+        <p className="text-sm font-semibold text-luxury-navy leading-tight">{label}</p>
+        <p className="text-xs text-luxury-muted">{sub}</p>
       </div>
     </Link>
   );
@@ -639,15 +623,15 @@ function MobileLink({
   return (
     <Link
       href={href}
-      className="flex items-center justify-between px-3 py-3 rounded-lg hover:bg-white transition-colors border border-transparent hover:border-ink-100"
+      className="flex items-center justify-between px-3 py-3 rounded-lg hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-100"
     >
       <span className="flex items-center gap-3">
-        <span className="h-8 w-8 rounded-md bg-ink-100 text-ink-700 grid place-items-center">
+        <span className="h-8 w-8 rounded-md bg-zinc-100 text-zinc-700 grid place-items-center">
           <Icon className="h-4 w-4" />
         </span>
-        <span className="text-sm font-medium text-ink-900">{label}</span>
+        <span className="text-sm font-semibold text-luxury-navy">{label}</span>
       </span>
-      <ArrowUpRight className="h-4 w-4 text-ink-400" />
+      <ArrowUpRight className="h-4 w-4 text-zinc-400" />
     </Link>
   );
 }

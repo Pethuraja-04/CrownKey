@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Mail, Phone, MapPin, ShieldCheck, Sparkles, BadgeCheck,
-  FacebookIcon, InstagramIcon, TwitterIcon, LinkedinIcon, YoutubeIcon,
+  FacebookIcon, InstagramIcon, TwitterIcon, LinkedinIcon, YoutubeIcon, Key
 } from 'lucide-react';
 
 const cols = [
@@ -74,24 +75,24 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-ink-900 text-ink-300 mt-24">
-      {/* Top gold accent — thin gradient line that fades to the edges. */}
+    <footer className="relative bg-luxury-navy text-zinc-300 border-t border-white/10 font-sans">
+      {/* Top gold accent line */}
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/70 to-transparent"
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-luxury-gold/70 to-transparent"
       />
 
       {/* Trust strip */}
-      <div className="border-b border-ink-800/80">
-        <div className="container py-5 flex flex-wrap items-center justify-center md:justify-between gap-4 text-xs">
-          <p className="text-ink-400">
-            <span className="text-canvas font-medium">CrownKey</span> · premium property
+      <div className="border-b border-white/5">
+        <div className="container py-6 flex flex-wrap items-center justify-center md:justify-between gap-4 text-xs">
+          <p className="text-zinc-400">
+            <span className="text-white font-semibold font-display">CrownKey</span> · premium property
             discovery across India.
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {trustItems.map(({ icon: Icon, label }) => (
-              <li key={label} className="flex items-center gap-1.5 text-ink-300">
-                <Icon className="h-3.5 w-3.5 text-[#e55b3c]" />
+              <li key={label} className="flex items-center gap-1.5 text-zinc-300">
+                <Icon className="h-3.5 w-3.5 text-luxury-gold" />
                 <span>{label}</span>
               </li>
             ))}
@@ -100,46 +101,51 @@ export default function Footer() {
       </div>
 
       {/* Main grid */}
-      <div className="container py-14 grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-12">
+      <div className="container py-16 grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-12">
         {/* Brand block */}
         <div className="col-span-2 md:col-span-2">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-[#e55b3c] text-white grid place-items-center font-display text-xl font-bold shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
-              C
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="relative h-10 w-10 transition-transform duration-300 group-hover:scale-110">
+              <Image
+                src="/logo-gold.png"
+                alt="CrownKey Logo"
+                fill
+                className="object-contain"
+              />
             </div>
-            <span className="font-display text-2xl font-semibold text-canvas leading-none">
+            <span className="font-display text-2xl font-bold text-white leading-none">
               CrownKey
             </span>
           </Link>
-          <p className="mt-5 text-sm leading-relaxed text-ink-400 max-w-sm">
+          <p className="mt-5 text-sm leading-relaxed text-zinc-400 max-w-sm">
             A handpicked marketplace for serious buyers, renters and owners. Verified listings,
             direct contact, and no middlemen — across ten Indian metros.
           </p>
 
           <ul className="mt-6 space-y-3 text-sm">
             <li className="flex items-start gap-2.5">
-              <Mail className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
+              <Mail className="h-4 w-4 mt-0.5 text-luxury-gold shrink-0" />
               <a
                 href="mailto:hello@crownkey.com"
-                className="text-ink-300 hover:text-canvas transition-colors"
+                className="text-zinc-300 hover:text-white transition-colors"
               >
                 hello@crownkey.com
               </a>
             </li>
             <li className="flex items-start gap-2.5">
-              <Phone className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
+              <Phone className="h-4 w-4 mt-0.5 text-luxury-gold shrink-0" />
               <a
                 href="tel:+918000000000"
-                className="text-ink-300 hover:text-canvas transition-colors"
+                className="text-zinc-300 hover:text-white transition-colors"
               >
                 +91 80 0000 0000
               </a>
             </li>
             <li className="flex items-start gap-2.5">
-              <MapPin className="h-4 w-4 mt-0.5 text-[#e55b3c] shrink-0" />
-              <span className="text-ink-300">
+              <MapPin className="h-4 w-4 mt-0.5 text-luxury-gold shrink-0" />
+              <span className="text-zinc-300">
                 Indiranagar, Bengaluru 560038
-                <span className="block text-ink-500 text-xs mt-0.5">Mon–Sat · 10am to 7pm IST</span>
+                <span className="block text-zinc-500 text-xs mt-0.5">Mon–Sat · 10am to 7pm IST</span>
               </span>
             </li>
           </ul>
@@ -150,7 +156,7 @@ export default function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="h-9 w-9 grid place-items-center rounded-full bg-white/5 text-ink-300 hover:bg-[#e55b3c] hover:text-white transition-colors"
+                className="h-9 w-9 grid place-items-center rounded-full bg-white/5 text-zinc-300 hover:bg-luxury-gold hover:text-luxury-navy transition-colors duration-300"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -160,7 +166,7 @@ export default function Footer() {
 
         {cols.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-canvas mb-5 font-sans">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white mb-5 font-sans">
               {col.title}
             </h4>
             <ul className="space-y-3">
@@ -168,11 +174,11 @@ export default function Footer() {
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="group inline-flex items-center text-sm text-ink-400 hover:text-canvas transition-colors"
+                    className="group inline-flex items-center text-sm text-zinc-400 hover:text-white transition-colors"
                   >
                     <span className="relative">
                       {l.label}
-                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#e55b3c] transition-all duration-300 group-hover:w-full" />
+                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-luxury-gold transition-all duration-300 group-hover:w-full" />
                     </span>
                   </Link>
                 </li>
@@ -182,10 +188,10 @@ export default function Footer() {
         ))}
       </div>
 
-      {/* Popular searches — drives users into the new filter combinations */}
-      <div className="border-t border-ink-800/80">
+      {/* Popular searches */}
+      <div className="border-t border-white/5">
         <div className="container py-7">
-          <h5 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-300 mb-4">
+          <h5 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 mb-4 font-sans">
             Popular searches
           </h5>
           <ul className="flex flex-wrap gap-2">
@@ -193,7 +199,7 @@ export default function Footer() {
               <li key={s.label}>
                 <Link
                   href={s.href}
-                  className="inline-block px-3 py-1.5 text-xs text-ink-300 rounded-full border border-ink-700/70 bg-white/[0.02] hover:border-[#e55b3c] hover:text-canvas hover:bg-white/5 transition-colors"
+                  className="inline-block px-3 py-1.5 text-xs text-zinc-300 rounded-full border border-white/10 bg-white/[0.02] hover:border-luxury-gold hover:text-white hover:bg-white/5 transition-colors"
                 >
                   {s.label}
                 </Link>
@@ -203,11 +209,11 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-ink-800">
-        <div className="container py-6 flex flex-col gap-4 text-xs text-ink-500">
-          <p className="text-[11px] leading-relaxed text-ink-500 max-w-3xl">
-            <span className="text-ink-300 font-medium">Disclaimer:</span> CrownKey is a property
+      {/* Bottom disclaimer bar */}
+      <div className="border-t border-white/5">
+        <div className="container py-6 flex flex-col gap-4 text-xs text-zinc-500">
+          <p className="text-[11px] leading-relaxed text-zinc-500 max-w-3xl">
+            <span className="text-zinc-400 font-medium font-display">Disclaimer:</span> CrownKey is a property
             discovery platform. Listings on the site are user-generated and not legal or financial
             advice. Always verify ownership documents and RERA registration with a qualified
             advisor before any transaction.
@@ -218,19 +224,19 @@ export default function Footer() {
             </span>
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <li>
-                <Link href="#" className="hover:text-canvas transition-colors">Privacy</Link>
+                <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-canvas transition-colors">Terms</Link>
+                <Link href="#" className="hover:text-white transition-colors">Terms</Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-canvas transition-colors">Cookies</Link>
+                <Link href="#" className="hover:text-white transition-colors">Cookies</Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-canvas transition-colors">Sitemap</Link>
+                <Link href="#" className="hover:text-white transition-colors">Sitemap</Link>
               </li>
             </ul>
-            <span className="flex items-center gap-1.5 text-ink-500">
+            <span className="flex items-center gap-1.5 text-zinc-500">
               <span className="inline-block h-2 w-3 rounded-sm bg-gradient-to-b from-[#ff9933] via-white to-[#138808]" />
               Crafted in India
             </span>

@@ -9,7 +9,7 @@ import {
   useState,
   ReactNode,
 } from 'react';
-import { apiLogin, apiLogout, apiMe, apiRegister } from '@/lib/api';
+import { apiLogin, apiLogout, apiMe, apiRegister, apiRefresh, AUTH_REFRESH_EVENT } from '@/lib/api';
 import type { User } from '@/lib/types';
 
 interface AuthState {
@@ -69,18 +69,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAuthOpen(false);
   }, []);
 
+  // Synchronize state when tokens are refreshed globally
+  useEffect(() => {
+    const handleRefresh = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) {
+        setState({
+          user: detail.user,
+          accessToken: detail.accessToken,
+          refreshToken: detail.refreshToken,
+          loading: false,
+        });
+      } else {
+        setState({
+          user: null,
+          accessToken: null,
+          refreshToken: null,
+          loading: false,
+        });
+      }
+    };
+
+    window.addEventListener(AUTH_REFRESH_EVENT, handleRefresh);
+    return () => {
+      window.removeEventListener(AUTH_REFRESH_EVENT, handleRefresh);
+    };
+  }, []);
+
   useEffect(() => {
     const stored = readStored();
     if (!stored?.accessToken) {
       setState((s) => ({ ...s, loading: false }));
       return;
     }
-    // Validate token by hitting /me — if it fails, clear.
+    // Validate token by hitting /me — if it fails, try refreshing.
     apiMe(stored.accessToken)
       .then((r) => setState({ ...stored, user: r.data, loading: false }))
       .catch(() => {
-        writeStored(null);
-        setState({ user: null, accessToken: null, refreshToken: null, loading: false });
+        if (stored.refreshToken) {
+          apiRefresh(stored.refreshToken)
+            .then((r) => {
+              const next = {
+                user: r.data.user,
+                accessToken: r.data.accessToken,
+                refreshToken: r.data.refreshToken,
+              };
+              writeStored(next);
+              setState({ ...next, loading: false });
+            })
+            .catch(() => {
+              writeStored(null);
+              setState({ user: null, accessToken: null, refreshToken: null, loading: false });
+            });
+        } else {
+          writeStored(null);
+          setState({ user: null, accessToken: null, refreshToken: null, loading: false });
+        }
       });
   }, []);
 

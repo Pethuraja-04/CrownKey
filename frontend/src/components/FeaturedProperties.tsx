@@ -56,13 +56,13 @@ export default function FeaturedProperties() {
     setActive((prev) => (prev - 1 + properties.length) % properties.length);
 
   return (
-    <section className="py-24 bg-zinc-50 overflow-hidden w-full">
+    <section className="py-24 bg-zinc-50 overflow-hidden w-full font-sans">
       {/* Heading */}
       <div className="text-center mb-16 px-4">
-        <p className="uppercase text-[11px] tracking-[0.3em] font-semibold text-zinc-500">
+        <p className="uppercase text-[11px] tracking-[0.3em] font-bold text-luxury-gold mb-3">
           OUR FEATURED PROPERTIES
         </p>
-        <h2 className="text-4xl font-bold mt-3 text-zinc-950 tracking-tight">
+        <h2 className="text-4xl font-semibold text-luxury-navy tracking-tight font-display">
           Find your dream property
         </h2>
       </div>
@@ -89,41 +89,42 @@ export default function FeaturedProperties() {
                   zIndex: isCenter ? 30 : 20 - Math.abs(offset),
                   opacity: Math.abs(offset) > 2 ? 0 : isCenter ? 1 : 0.6,
                   pointerEvents: isCenter ? 'auto' : 'none',
+                  filter: isCenter ? 'none' : 'blur(1.5px)',
                 }}
               >
                 {/* Fixed-size Card Wrapper to prevent reflow layout shifts */}
-                <div className="relative w-[280px] h-[380px] overflow-hidden rounded-[32px] shadow-lg border border-zinc-200/30 group bg-white">
+                <div className="relative w-[280px] h-[380px] overflow-hidden rounded-[32px] shadow-lg border border-white/40 group bg-white/70 backdrop-blur-md">
                   {/* Property Image */}
                   <div className="absolute inset-0 z-0">
                     <img
                       src={item.img}
                       alt={item.city}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-[800ms] group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/90 via-transparent to-transparent" />
                   </div>
 
                   {/* Content Overlay */}
                   <div className="absolute inset-x-0 bottom-0 p-6 z-10 text-white flex flex-col justify-end">
-                    <p className="text-xs font-light text-white/80 mb-1">{item.city}</p>
-                    <h3 className="text-2xl font-bold tracking-tight mb-3 text-white">
+                    <p className="text-xs font-light text-zinc-300 mb-1">{item.city}</p>
+                    <h3 className="text-2xl font-bold tracking-tight mb-3 text-white font-display">
                       {item.price}
                     </h3>
 
                     {/* Secondary details visible/fading for center active card */}
-                    <div className={`flex items-center gap-2.5 text-[11px] text-white/70 border-t border-white/15 pt-3.5 transition-opacity duration-500 ${isCenter ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className={`flex items-center gap-2.5 text-[11px] text-zinc-300 border-t border-white/10 pt-3.5 transition-opacity duration-500 ${isCenter ? 'opacity-100' : 'opacity-0'}`}>
                       <span className="flex items-center gap-1">
-                        <BedDouble className="w-3.5 h-3.5 text-white/50" />
+                        <BedDouble className="w-3.5 h-3.5 text-luxury-gold" />
                         {item.beds} Bed
                       </span>
                       <span className="w-1 h-1 rounded-full bg-white/20" />
                       <span className="flex items-center gap-1">
-                        <Bath className="w-3.5 h-3.5 text-white/50" />
+                        <Bath className="w-3.5 h-3.5 text-luxury-gold" />
                         {item.baths} Bath
                       </span>
                       <span className="w-1 h-1 rounded-full bg-white/20" />
                       <span className="flex items-center gap-1">
-                        <Maximize2 className="w-3.5 h-3.5 text-white/50" />
+                        <Maximize2 className="w-3.5 h-3.5 text-luxury-gold" />
                         {item.area}
                       </span>
                     </div>
@@ -138,17 +139,17 @@ export default function FeaturedProperties() {
         <div className="mt-8 flex gap-4 z-40">
           <button
             onClick={prev}
-            className="w-12 h-12 rounded-full bg-white border border-zinc-200 shadow-md flex items-center justify-center hover:bg-zinc-50 active:scale-95 transition-all text-zinc-700"
+            className="w-12 h-12 rounded-[14px] bg-white border border-zinc-200 shadow-md flex items-center justify-center hover:bg-zinc-50 active:scale-95 transition-all text-luxury-navy"
             aria-label="Previous property"
           >
             <ChevronLeft size={20} />
           </button>
           <button
             onClick={next}
-            className="w-12 h-12 rounded-full bg-zinc-950 text-white shadow-md flex items-center justify-center hover:bg-zinc-800 active:scale-95 transition-all"
+            className="w-12 h-12 rounded-[14px] bg-luxury-navy text-white shadow-md flex items-center justify-center hover:bg-luxury-deep active:scale-95 transition-all"
             aria-label="Next property"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={20} className="text-luxury-gold" />
           </button>
         </div>
       </div>

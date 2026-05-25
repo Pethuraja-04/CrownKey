@@ -1,15 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Building2, ShieldCheck, Sparkles, Users, ArrowRight } from 'lucide-react';
+import { Building2, Sparkles, Users, Key } from 'lucide-react';
 import HeroSearch from '@/components/HeroSearch';
-import PropertyCard from '@/components/property/PropertyCard';
 import FeaturedPropertiesCarousel from '@/components/FeaturedPropertiesCarousel';
 import LandingCTA from '@/components/LandingCTA';
 import { apiListProperties } from '@/lib/api';
 import type { PropertyListItem } from '@/lib/types';
 import FeaturedProperties from '@/components/FeaturedProperties';
 
-// Cache the landing page for 5 minutes — featured props rarely change.
+// Cache the landing page for 5 minutes
 export const revalidate = 300;
 
 async function getFeatured(): Promise<PropertyListItem[]> {
@@ -20,35 +19,6 @@ async function getFeatured(): Promise<PropertyListItem[]> {
     return [];
   }
 }
-
-const PROPERTIES = [
-  {
-    image: "/property1.jpg",
-    city: "Miami, Florida",
-    price: "$5,80,000",
-  },
-  {
-    image: "/property2.jpg",
-    city: "Miami, Florida",
-    price: "$5,80,000",
-  },
-  {
-    image: "/property3.jpg",
-    city: "Seattle, Washington",
-    price: "$5,80,000",
-    featured: true,
-  },
-  {
-    image: "/property4.jpg",
-    city: "Miami, Florida",
-    price: "$5,80,000",
-  },
-  {
-    image: "/property5.jpg",
-    city: "Miami, Florida",
-    price: "$5,80,000",
-  },
-];
 
 const CITIES = [
   {
@@ -83,233 +53,257 @@ export default async function HomePage() {
         {/* Background Cover Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/hero-villa.png"
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80"
             alt="Premium luxury real estate background"
             fill
             priority
             className="object-cover"
           />
-          {/* Ambient overlay gradient to secure high-contrast for white texts */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-black/55 z-10" />
+          {/* Ambient overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy via-luxury-navy/40 to-luxury-navy/60 z-10" />
         </div>
 
-        {/* Content Container (Top-aligned) */}
-        <div className="container relative z-20 pt-16 md:pt-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Main Headline Column */}
-            <div className="lg:col-span-7">
-              <h1 className="font-display text-4xl sm:text-5xl md:text-6.5xl font-bold tracking-tight text-white leading-[1.08]">
-                We Specialize in <br />
-                All Aspects of Housing
+        <div className="container relative z-20 pt-16 md:pt-20 pb-10 md:pb-14">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* LEFT COLUMN: Heading & Description */}
+            <div className="lg:col-span-5 space-y-6">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-xs tracking-[0.2em] uppercase">
+                Premium Real Estate
+              </span>
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
+                Find Your <br /> 
+                <span className="text-luxury-gold">Perfect Property</span>
               </h1>
-            </div>
-
-            {/* Description Paragraph Column */}
-            <div className="lg:col-span-5 lg:pt-3">
-              <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed max-w-md">
+              <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed max-w-md font-sans">
                 CrownKey curates residential and commercial estates across premier destinations. Experience direct, verified property connections with zero brokerage friction.
               </p>
             </div>
+
+            {/* RIGHT COLUMN: Stats Grid Card Showcase */}
+            <div className="lg:col-span-7 relative stats-fade-in">
+              {/* Background Ambient Glows */}
+              <div className="absolute -top-10 -right-10 w-72 h-72 bg-luxury-gold/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-luxury-deep/20 rounded-full blur-[80px] pointer-events-none" />
+
+              {/* Decorative dotted grid pattern */}
+              <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:16px_16px] rounded-3xl pointer-events-none" />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
+                
+                {/* Stat 1: Active Listings */}
+                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 flex flex-col justify-between h-[160px]">
+                  <div className="flex items-start justify-between">
+                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <span className="w-2.5 h-2.5 rounded-full bg-luxury-gold animate-pulse mt-1" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                      50k+
+                    </h3>
+                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
+                      Active Listings
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stat 2: Cities Covered */}
+                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 sm:translate-y-6 flex flex-col justify-between h-[160px]">
+                  <div className="flex items-start justify-between">
+                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <span className="w-2.5 h-2.5 rounded-full bg-luxury-gold/50 mt-1" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                      10+
+                    </h3>
+                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
+                      Cities Covered
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stat 3: Owner Support */}
+                <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1.5 sm:col-span-2 sm:translate-y-3 flex flex-col justify-between h-[160px]">
+                  <div className="flex items-start justify-between">
+                    <div className="w-10 h-10 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold uppercase font-sans tracking-wide">
+                      Live
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                      24/7
+                    </h3>
+                    <p className="text-zinc-300 text-[11px] font-bold uppercase tracking-wider mt-1.5 font-sans">
+                      Direct Owner Support
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              <style dangerouslySetInnerHTML={{
+                __html: `
+                  @keyframes fadeInRight {
+                    from { opacity: 0; transform: translateX(-30px); }
+                    to { opacity: 1; transform: translateX(0); }
+                  }
+                  .stats-fade-in {
+                    animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+                    opacity: 0;
+                  }
+                `
+              }} />
+            </div>
+
           </div>
         </div>
 
-        {/* Floating Search Filter Container (Centered relative to hero height) */}
+
+
         <div className="container relative z-20 my-auto">
-          <div className="max-w-7xl mx-auto w-full">
+          <div className="max-w-7xl mx-auto w-full animate-float">
             <HeroSearch />
           </div>
-        </div>
-
-        {/* Stats Section (Bottom-aligned) */}
-        <div className="container relative z-20 pb-10 md:pb-14 stats-fade-in">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-4xl">
-            {/* Stat 1 */}
-            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-xl bg-[#e55b3c]/15 border border-[#e55b3c]/25 flex items-center justify-center text-[#e55b3c] group-hover:scale-110 transition-transform duration-500 shrink-0">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                  50k+
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                </p>
-                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Active listings</p>
-              </div>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1">
-              <div className="w-12 h-12 rounded-xl bg-sky-500/15 border border-sky-500/25 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform duration-500 shrink-0">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                  10+
-                  <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                </p>
-                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Cities covered</p>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="group flex items-center gap-4.5 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-500 rounded-2xl py-4.5 px-6 shadow-lg hover:-translate-y-1 sm:col-span-2 md:col-span-1">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform duration-500 shrink-0">
-                <Users className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-display text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                  24/7
-                  <span className="w-2 h-2 rounded-full bg-[#e55b3c] animate-pulse" />
-                </p>
-                <p className="text-zinc-400 text-[10px] font-semibold uppercase tracking-wider mt-0.5">Owner support</p>
-              </div>
-            </div>
-          </div>
-          <style>{`
-            @keyframes fadeInRight {
-              from { opacity: 0; transform: translateX(-30px); }
-              to { opacity: 1; transform: translateX(0); }
-            }
-            .stats-fade-in {
-              animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-              opacity: 0;
-            }
-          `}</style>
         </div>
       </section>
 
       {/* FEATURED PROPERTIES */}
-      <section className="container py-24">
+      <section className="container py-12">
         <FeaturedPropertiesCarousel properties={featured} />
       </section>
 
-
-
       <FeaturedProperties />
 
-      <section className="container py-28">
-
+      {/* TOP CITIES SECTION */}
+      <section className="container pt-14 pb-28">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-xs uppercase tracking-[0.4em] text-zinc-500 mb-4">
+          <p className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-bold mb-4 font-sans">
             Explore
           </p>
-
-          <h2 className="text-5xl font-light text-zinc-950 tracking-tight">
+          <h2 className="text-4xl font-semibold text-luxury-navy tracking-tight font-display">
             Discover top cities
           </h2>
-
-          <p className="mt-5 text-zinc-500">
+          <p className="mt-5 text-luxury-muted font-sans">
             Explore premium homes in India's most desirable locations
           </p>
         </div>
 
         <div className="grid grid-cols-12 gap-6">
-
           {CITIES.map((city, index) => (
             <Link
               key={city.name}
               href={`/properties?city=${city.name}`}
               className={`
-          group
-          relative
-          overflow-hidden
-          rounded-[15px]
-          shadow-sm
-          hover:shadow-2xl
-          transition-all
-          duration-700
-
-          ${index === 0
+                group
+                relative
+                overflow-hidden
+                rounded-[24px]
+                shadow-soft
+                hover:shadow-2xl
+                transition-all
+                duration-700
+                ${index === 0
                   ? "col-span-12 md:col-span-6 row-span-2 h-[520px]"
                   : "col-span-6 md:col-span-3 h-[250px]"
                 }
-        `}
+              `}
             >
-
               <Image
                 src={city.img}
                 alt={city.name}
                 fill
                 className="
-            object-cover
-            transition-transform
-            duration-[1500ms]
-            group-hover:scale-110
-          "
+                  object-cover
+                  transition-transform
+                  duration-[1500ms]
+                  group-hover:scale-110
+                "
               />
 
               {/* Overlay */}
               <div
                 className="
-            absolute
-            inset-0
-            bg-gradient-to-t
-            from-black/80
-            via-black/20
-            to-transparent
-          "
+                  absolute
+                  inset-0
+                  bg-gradient-to-t
+                  from-luxury-navy/90
+                  via-luxury-navy/20
+                  to-transparent
+                  transition-opacity
+                  duration-500
+                "
               />
 
               {/* Glass Badge */}
               <div
                 className="
-            absolute
-            top-5
-            left-5
-            px-4
-            py-2
-            rounded-full
-            backdrop-blur-xl
-            bg-white/10
-            border
-            border-white/20
-            text-white
-            text-xs
-          "
+                  absolute
+                  top-5
+                  left-5
+                  px-4
+                  py-2
+                  rounded-full
+                  backdrop-blur-xl
+                  bg-luxury-navy/40
+                  border
+                  border-white/10
+                  text-luxury-gold
+                  font-bold
+                  text-[11px]
+                  tracking-wider
+                "
               >
                 {120 + index * 20}+ Properties
               </div>
 
               {/* Content */}
-              <div className="absolute bottom-0 p-7 text-white">
-
+              <div className="absolute bottom-0 p-7 text-white z-10">
                 <h3
                   className="
-              text-3xl
-              font-semibold
-              mb-2
-              group-hover:translate-y-[-4px]
-              transition
-            "
+                    text-3xl
+                    font-semibold
+                    mb-2
+                    group-hover:translate-y-[-4px]
+                    transition
+                    font-display
+                  "
                 >
                   {city.name}
                 </h3>
-
                 <p
                   className="
-              opacity-0
-              translate-y-4
-              group-hover:opacity-100
-              group-hover:translate-y-0
-              transition-all
-              duration-500
-            "
+                    opacity-0
+                    translate-y-4
+                    group-hover:opacity-100
+                    group-hover:translate-y-0
+                    transition-all
+                    duration-500
+                    text-xs
+                    text-zinc-300
+                    font-sans
+                  "
                 >
-                  Discover premium apartments,
-                  villas and luxury spaces
+                  Discover premium apartments, villas and luxury spaces
                 </p>
-
               </div>
-
             </Link>
           ))}
-
         </div>
-
       </section>
 
       {/* CTA SECTION */}
-      <LandingCTA />
+      <div className="bg-zinc-50">
+
+        <LandingCTA />
+      </div>
     </>
   );
 }

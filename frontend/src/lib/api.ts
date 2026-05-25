@@ -39,6 +39,8 @@ const buildQuery = (q?: Record<string, unknown>) => {
   return s ? `?${s}` : '';
 };
 
+export const AUTH_REFRESH_EVENT = 'crownkey_auth_refresh';
+
 async function request<T>(path: string, opts: ReqOptions = {}): Promise<T> {
   const { token, query, headers, next, body, ...rest } = opts;
   const url = `${API_URL}${path}${buildQuery(query)}`;
@@ -62,6 +64,64 @@ async function request<T>(path: string, opts: ReqOptions = {}): Promise<T> {
 
   const json = await res.json().catch(() => ({}));
   if (!res.ok || json.success === false) {
+    // Intercept 401 Unauthorized errors and attempt to refresh the token
+    if (
+      res.status === 401 &&
+      path !== '/api/auth/refresh' &&
+      path !== '/api/auth/login' &&
+      path !== '/api/auth/register'
+    ) {
+      const STORAGE_KEY = 'realestate.auth.v1';
+      let stored = null;
+      if (typeof window !== 'undefined') {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          stored = raw ? JSON.parse(raw) : null;
+        } catch {}
+      }
+
+      if (stored?.refreshToken) {
+        try {
+          const refreshRes = await apiRefresh(stored.refreshToken);
+          const newAuthData = {
+            user: refreshRes.data.user,
+            accessToken: refreshRes.data.accessToken,
+            refreshToken: refreshRes.data.refreshToken,
+          };
+
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(newAuthData));
+            window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: newAuthData }));
+          }
+
+          // Retry the request with the new access token
+          const retryHeaders = {
+            ...finalHeaders,
+            Authorization: `Bearer ${newAuthData.accessToken}`,
+          };
+          const retryRes = await fetch(url, {
+            ...rest,
+            body,
+            headers: retryHeaders,
+            ...(next ? { next } : {}),
+          });
+          const retryJson = await retryRes.json().catch(() => ({}));
+          if (!retryRes.ok || retryJson.success === false) {
+            const err = retryJson.error || { message: 'Request failed', code: 'UNKNOWN' };
+            throw new ApiError(err.message, retryRes.status, err.code, err.details);
+          }
+          return retryJson as T;
+        } catch (refreshErr) {
+          // Refresh failed (token expired/revoked) - clear session
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(STORAGE_KEY);
+            window.dispatchEvent(new CustomEvent(AUTH_REFRESH_EVENT, { detail: null }));
+          }
+          throw refreshErr;
+        }
+      }
+    }
+
     const err = json.error || { message: 'Request failed', code: 'UNKNOWN' };
     throw new ApiError(err.message, res.status, err.code, err.details);
   }

@@ -40,6 +40,14 @@ const config: Config = {
           900: '#18181b',
         },
         canvas: '#ffffff',
+        luxury: {
+          navy: '#0B1F3A',
+          deep: '#163A70',
+          gold: '#D4A574',
+          bg: '#F8FAFC',
+          text: '#0F172A',
+          muted: '#64748B',
+        },
       },
        boxShadow: {
         soft: '0 1px 2px rgba(24,24,27,0.04), 0 4px 16px rgba(24,24,27,0.06)',
@@ -65,6 +73,10 @@ const config: Config = {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
         // Slow, organic drift for ambient background blobs.
         'blob-1': {
           '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
@@ -84,6 +96,7 @@ const config: Config = {
       animation: {
         'fade-up': 'fade-up 0.4s ease-out',
         shimmer: 'shimmer 2s linear infinite',
+        float: 'float 6s ease-in-out infinite',
         'blob-1': 'blob-1 22s ease-in-out infinite',
         'blob-2': 'blob-2 26s ease-in-out infinite',
         'blob-3': 'blob-3 30s ease-in-out infinite',

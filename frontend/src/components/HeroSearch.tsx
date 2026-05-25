@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { ChevronDown, Search, ArrowRight } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
 
 const CITIES = ['Mumbai', 'Bengaluru', 'Delhi', 'Gurgaon', 'Pune', 'Hyderabad', 'Chennai', 'Noida', 'Kolkata'];
 
@@ -70,7 +70,7 @@ export default function HeroSearch() {
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-xl rounded-[2.5rem] shadow-[0_24px_50px_-15px_rgba(0,0,0,0.5)] p-6 md:p-8 border border-white/20 w-full relative z-20 hero-fade-up">
+    <div className="bg-white/10 backdrop-blur-sm rounded-[24px] shadow-[0_24px_50px_-15px_rgba(11,31,58,0.3)] p-6 md:p-8 border border-white/20 w-full relative z-20 hero-fade-up">
       {/* CSS Animation injection */}
       <style>{`
         @keyframes fadeInUp {
@@ -89,12 +89,12 @@ export default function HeroSearch() {
       `}</style>
 
       {/* Title + Buy/Rent Toggle */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-white/10 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-white/40 pb-5">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight font-display">
             Discover Your Perfect Address
           </h2>
-          <p className="text-white/60 text-xs mt-1">Direct owner connections with verified listings</p>
+          <p className="text-white/60 text-xs mt-1 font-sans">Direct owner connections with verified listings</p>
         </div>
         
         {/* Toggle Pills */}
@@ -102,9 +102,9 @@ export default function HeroSearch() {
           <button
             type="button"
             onClick={() => setListingType('SALE')}
-            className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-300 ${
+            className={`px-6 py-2 rounded-full text-xs font-bold transition-all duration-300 ${
               listingType === 'SALE'
-                ? 'bg-[#e55b3c] text-white shadow-md'
+                ? 'bg-luxury-navy text-white shadow-md'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
             }`}
           >
@@ -113,9 +113,9 @@ export default function HeroSearch() {
           <button
             type="button"
             onClick={() => setListingType('RENT')}
-            className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-300 ${
+            className={`px-6 py-2 rounded-full text-xs font-bold transition-all duration-300 ${
               listingType === 'RENT'
-                ? 'bg-[#e55b3c] text-white shadow-md'
+                ? 'bg-luxury-navy text-white shadow-md'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
             }`}
           >
@@ -132,15 +132,15 @@ export default function HeroSearch() {
             <label className="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-2 ml-1">
               Looking for
             </label>
-            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-2xl flex items-center px-4 py-3.5 shadow-sm">
+            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-[14px] flex items-center px-4 py-3.5 shadow-sm">
               <select
                 className="w-full bg-transparent outline-none text-white text-sm appearance-none pr-8 cursor-pointer font-medium"
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
               >
-                <option value="" className="bg-zinc-950 text-white font-medium">Select property type</option>
+                <option value="" className="bg-luxury-navy text-white font-medium">Select property type</option>
                 {PROPERTY_TYPES.map((t) => (
-                  <option key={t.value} value={t.value} className="bg-zinc-950 text-white font-medium">
+                  <option key={t.value} value={t.value} className="bg-luxury-navy text-white font-medium">
                     {t.label}
                   </option>
                 ))}
@@ -154,15 +154,15 @@ export default function HeroSearch() {
             <label className="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-2 ml-1">
               Budget Range
             </label>
-            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-2xl flex items-center px-4 py-3.5 shadow-sm">
+            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-[14px] flex items-center px-4 py-3.5 shadow-sm">
               <select
                 className="w-full bg-transparent outline-none text-white text-sm appearance-none pr-8 cursor-pointer font-medium"
                 value={priceIdx}
                 onChange={(e) => setPriceIdx(e.target.value)}
               >
-                <option value="" className="bg-zinc-950 text-white font-medium">Select budget</option>
+                <option value="" className="bg-luxury-navy text-white font-medium">Select budget</option>
                 {PRICE_RANGES.map((r, idx) => (
-                  <option key={idx} value={idx} className="bg-zinc-950 text-white font-medium">
+                  <option key={idx} value={idx} className="bg-luxury-navy text-white font-medium">
                     {r.label}
                   </option>
                 ))}
@@ -176,15 +176,15 @@ export default function HeroSearch() {
             <label className="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-2 ml-1">
               Select City
             </label>
-            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-2xl flex items-center px-4 py-3.5 shadow-sm">
+            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-[14px] flex items-center px-4 py-3.5 shadow-sm">
               <select
                 className="w-full bg-transparent outline-none text-white text-sm appearance-none pr-8 cursor-pointer font-medium"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               >
-                <option value="" className="bg-zinc-950 text-white font-medium">Select city</option>
+                <option value="" className="bg-luxury-navy text-white font-medium">Select city</option>
                 {CITIES.map((c) => (
-                  <option key={c} value={c} className="bg-zinc-950 text-white font-medium">
+                  <option key={c} value={c} className="bg-luxury-navy text-white font-medium">
                     {c}
                   </option>
                 ))}
@@ -198,15 +198,15 @@ export default function HeroSearch() {
             <label className="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-2 ml-1">
               Rooms configuration
             </label>
-            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-2xl flex items-center px-4 py-3.5 shadow-sm">
+            <div className="relative bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-[1px] focus-within:bg-white/10 focus-within:border-white/30 transition-all duration-300 rounded-[14px] flex items-center px-4 py-3.5 shadow-sm">
               <select
                 className="w-full bg-transparent outline-none text-white text-sm appearance-none pr-8 cursor-pointer font-medium"
                 value={bedrooms}
                 onChange={(e) => setBedrooms(e.target.value)}
               >
-                <option value="" className="bg-zinc-950 text-white font-medium">Select configuration</option>
+                <option value="" className="bg-luxury-navy text-white font-medium">Select configuration</option>
                 {ROOMS_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value} className="bg-zinc-950 text-white font-medium">
+                  <option key={o.value} value={o.value} className="bg-luxury-navy text-white font-medium">
                     {o.label}
                   </option>
                 ))}
@@ -254,9 +254,9 @@ export default function HeroSearch() {
           {/* Action button */}
           <button
             type="submit"
-            className="w-full md:w-auto bg-[#e55b3c] hover:bg-[#d44a2c] text-white hover:shadow-[0_8px_20px_-6px_rgba(229,91,60,0.6)] active:scale-[0.98] px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 shadow-md tracking-wider flex items-center justify-center gap-2"
+            className="w-full md:w-auto bg-luxury-navy hover:bg-luxury-deep hover:shadow-[0_8px_20px_-6px_rgba(11,31,58,0.5)] active:scale-[0.98] px-8 py-4 rounded-[14px] font-bold text-sm transition-all duration-300 shadow-md tracking-wider flex items-center justify-center gap-2 text-white"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-4 h-4 text-luxury-gold" />
             <span>Search Properties</span>
           </button>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Poppins, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { WishlistProvider } from '@/providers/WishlistProvider';
@@ -8,13 +8,14 @@ import Footer from '@/components/layout/Footer';
 import BackgroundDecor from '@/components/layout/BackgroundDecor';
 import ChatWidget from '@/components/chat/ChatWidget';
 
-const inter = Inter({
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-const outfit = Outfit({
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${poppins.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
         <AuthProvider>
           <WishlistProvider>

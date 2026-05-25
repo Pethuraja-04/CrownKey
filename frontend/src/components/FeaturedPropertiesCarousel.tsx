@@ -41,12 +41,12 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
 
   const handlePrev = () => {
     setStartIndex((prev) => (prev - 1 + properties.length) % properties.length);
-    setHoveredIdx(null); // Reset hover on slide change
+    setHoveredIdx(null);
   };
 
   const handleNext = () => {
     setStartIndex((prev) => (prev + 1) % properties.length);
-    setHoveredIdx(null); // Reset hover on slide change
+    setHoveredIdx(null);
   };
 
   const visibleItems: PropertyListItem[] = [];
@@ -62,14 +62,14 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
     <div className="relative w-full flex flex-col items-center select-none">
       {/* Title Block */}
       <div className="text-center max-w-xl mx-auto mb-12">
-        <span className="text-[11px] uppercase tracking-[0.25em] text-[#e55b3c] font-bold block mb-3">Premium Selections</span>
-        <h3 className="font-display text-4xl font-bold text-zinc-950 tracking-tight">Our Featured Properties</h3>
-        <p className="mt-3 text-zinc-500 text-sm leading-relaxed">
+        <span className="text-[11px] uppercase tracking-[0.25em] text-luxury-gold font-bold block mb-3 font-sans">Premium Selections</span>
+        <h3 className="font-display text-4xl font-semibold text-luxury-navy tracking-tight">Our Featured Properties</h3>
+        <p className="mt-3 text-luxury-muted text-sm leading-relaxed font-sans">
           Explore CrownKey's handpicked luxury estates. Modern architectural structures styled for refined residential living.
         </p>
       </div>
 
-      {/* Accordion Carousel Grid with parent-level mouse leave detection */}
+      {/* Accordion Carousel Grid */}
       <div 
         className="w-full flex flex-col md:flex-row gap-6 items-stretch min-h-[520px]"
         onMouseLeave={() => setHoveredIdx(null)}
@@ -87,21 +87,23 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
               key={`${property.id}-${idx}`}
               href={`/properties/${property.slug}`}
               onMouseEnter={() => setHoveredIdx(idx)}
-              className={`group relative flex-1 min-w-0 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden flex flex-col justify-between transition-all duration-500 ease-out shadow-sm hover:shadow-xl ${
-                isActive ? 'md:flex-[1.8] border-zinc-300' : 'md:flex-1'
+              className={`group relative flex-1 min-w-0 bg-white/70 border rounded-[2rem] overflow-hidden flex flex-col justify-between transition-all duration-500 ease-out shadow-soft ${
+                isActive 
+                  ? 'md:flex-[1.8] border-white/50 md:opacity-100 md:blur-none md:scale-100 shadow-xl' 
+                  : 'md:flex-1 border-white/20 md:opacity-50 md:blur-[1.5px] md:scale-[0.97]'
               }`}
             >
               {/* Image & Badges Container */}
-              <div className="relative w-full h-[290px] overflow-hidden">
+              <div className="relative w-full h-[290px] overflow-hidden bg-zinc-100">
                 <Image
                   src={property.images?.[0]?.url || placeholder}
                   alt={property.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                   priority={idx === 0}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
 
                 {/* Badges - visible if active */}
                 <div className={`absolute top-5 left-5 z-10 flex flex-col gap-2 transition-all duration-500 pointer-events-none md:pointer-events-auto ${
@@ -111,33 +113,33 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
                 }`}>
                   {/* Rent / Sale Badge */}
                   <div className="flex items-center gap-1.5">
-                    <div className="flex items-center gap-1.5 bg-zinc-950/85 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
-                      {isRent ? <Key className="w-3.5 h-3.5 text-[#e55b3c]" /> : <Tag className="w-3.5 h-3.5 text-[#e55b3c]" />}
+                    <div className="flex items-center gap-1.5 bg-luxury-navy/90 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
+                      {isRent ? <Key className="w-3.5 h-3.5 text-luxury-gold" /> : <Tag className="w-3.5 h-3.5 text-luxury-gold" />}
                       <span>{isRent ? 'Rent' : 'Sale'}</span>
                     </div>
-                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-zinc-950 font-bold shadow-sm">
+                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-luxury-navy font-bold shadow-sm">
                       {priceStr}
                     </div>
                   </div>
 
                   {/* Rooms Badge */}
                   <div className="flex items-center gap-1.5">
-                    <div className="flex items-center gap-1.5 bg-zinc-950/85 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
-                      <Home className="w-3.5 h-3.5 text-[#e55b3c]" />
+                    <div className="flex items-center gap-1.5 bg-luxury-navy/90 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
+                      <Home className="w-3.5 h-3.5 text-luxury-gold" />
                       <span>Rooms</span>
                     </div>
-                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-zinc-950 font-bold shadow-sm">
+                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-luxury-navy font-bold shadow-sm">
                       {bedroomWord}
                     </div>
                   </div>
 
                   {/* Place Badge */}
                   <div className="flex items-center gap-1.5">
-                    <div className="flex items-center gap-1.5 bg-zinc-950/85 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
-                      <MapPin className="w-3.5 h-3.5 text-[#e55b3c]" />
+                    <div className="flex items-center gap-1.5 bg-luxury-navy/90 backdrop-blur-md border border-white/10 rounded-full px-3.5 py-1.5 text-[11px] text-white font-medium">
+                      <MapPin className="w-3.5 h-3.5 text-luxury-gold" />
                       <span>Place</span>
                     </div>
-                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-zinc-950 font-bold shadow-sm">
+                    <div className="bg-white border border-zinc-200/50 rounded-full px-3.5 py-1.5 text-[11px] text-luxury-navy font-bold shadow-sm">
                       {property.city}
                     </div>
                   </div>
@@ -145,23 +147,23 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
               </div>
 
               {/* Details & Button Container */}
-              <div className="p-6 md:p-8 flex flex-col justify-between flex-grow bg-white">
+              <div className="p-6 md:p-8 flex flex-col justify-between flex-grow bg-white/50 backdrop-blur-md">
                 <div className="mb-6">
-                  <h4 className="font-display text-xl md:text-2xl font-bold tracking-tight text-zinc-950 line-clamp-1 group-hover:line-clamp-2 transition-all duration-300">
+                  <h4 className="font-display text-xl md:text-2xl font-semibold tracking-tight text-luxury-navy line-clamp-1 group-hover:line-clamp-2 transition-all duration-300">
                     {property.title}
                   </h4>
-                  <p className="mt-3 text-zinc-500 text-xs md:text-sm leading-relaxed line-clamp-2">
+                  <p className="mt-3 text-luxury-muted text-xs md:text-sm leading-relaxed line-clamp-2 font-sans">
                     {isRent ? 'Premium rental space ' : 'Exclusive property '}
-                    located in the prime area of {property.locality || property.city}. Built with a focus on modern aesthetics and sustainable design.
+                    located in the prime area of {property.locality || property.city}. Built with a focus on modern aesthetics and sustainable luxury.
                   </p>
                 </div>
 
                 {/* View Details Button */}
                 <div className="w-full">
-                  <div className={`w-full py-3.5 px-6 rounded-xl flex items-center justify-between text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${
+                  <div className={`w-full py-3.5 px-6 rounded-[14px] flex items-center justify-between text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${
                     isActive 
-                      ? 'bg-[#e55b3c] text-white border-transparent shadow-md' 
-                      : 'bg-zinc-50 text-zinc-600 border-zinc-100 hover:bg-zinc-100'
+                      ? 'bg-luxury-navy text-white border-transparent shadow-md' 
+                      : 'bg-zinc-50 text-luxury-navy/60 border-zinc-100 hover:bg-zinc-100'
                   }`}>
                     <span>View Details</span>
                     <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${isActive ? 'translate-x-1' : ''}`} />
@@ -185,10 +187,10 @@ export default function FeaturedPropertiesCarousel({ properties }: CarouselProps
           </button>
           <button
             onClick={handleNext}
-            className="h-10 w-10 rounded-full bg-zinc-950 text-white flex items-center justify-center hover:bg-zinc-800 active:scale-95 transition-all shadow-sm"
+            className="h-10 w-10 rounded-full bg-luxury-navy text-white flex items-center justify-center hover:bg-luxury-deep active:scale-95 transition-all shadow-sm"
             aria-label="Next properties"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5 text-luxury-gold" />
           </button>
         </div>
       )}

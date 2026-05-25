@@ -16,65 +16,77 @@ export default function PropertyCard({ p, priority = false }: { p: PropertyListI
   return (
     <Link
       href={`/properties/${p.slug}`}
-      className="group card overflow-hidden hover:shadow-lift transition-all duration-300 hover:-translate-y-1 block"
+      className="group card overflow-hidden hover:scale-[1.03] hover:shadow-2xl transition-all duration-500 block relative bg-white/80 border border-white/50 backdrop-blur-md"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-ink-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
         <Image
           src={img}
           alt={p.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-110"
           priority={priority}
         />
-        <div className="absolute top-3 left-3 flex gap-2">
+        
+        {/* Status badges */}
+        <div className="absolute top-3 left-3 flex gap-2 z-10">
           <span className={p.listingType === 'SALE' ? 'badge-sale' : 'badge-rent'}>
             For {p.listingType === 'SALE' ? 'Sale' : 'Rent'}
           </span>
           {p.isVerified && (
-            <span className="badge-gold">
-              <BadgeCheck className="h-3 w-3" /> Verified
+            <span className="badge bg-luxury-gold/90 text-luxury-navy font-bold flex items-center gap-1 border border-luxury-gold/30">
+              <BadgeCheck className="h-3 w-3 text-luxury-navy" /> Verified
             </span>
           )}
         </div>
+        
         <WishlistButton propertyId={p.id} variant="card" />
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-ink-900/60 to-transparent p-3">
-          <p className="text-canvas font-display text-xl font-semibold">
+
+        {/* Navy Price Badge */}
+        <div className="absolute bottom-3 left-3 z-10">
+          <span className="bg-luxury-navy text-white text-sm font-semibold font-display px-3 py-1.5 rounded-[10px] shadow-md border border-white/10">
             {formatINR(p.price, p.listingType)}
-          </p>
+          </span>
         </div>
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
       </div>
-      <div className="p-4 space-y-3">
+
+      <div className="p-5 space-y-4">
         <div>
-          <h3 className="font-semibold text-ink-900 line-clamp-1 text-base">{p.title}</h3>
-          <p className="flex items-center gap-1 text-xs text-ink-500 mt-1">
-            <MapPin className="h-3 w-3" />
+          <h3 className="font-semibold text-luxury-text line-clamp-1 text-base group-hover:text-luxury-deep transition-colors font-sans">{p.title}</h3>
+          <p className="flex items-center gap-1 text-xs text-luxury-muted mt-1.5">
+            <MapPin className="h-3.5 w-3.5 text-luxury-gold shrink-0" />
             <span className="line-clamp-1">{p.locality}, {p.city}</span>
           </p>
         </div>
-        <div className="flex items-center justify-between text-xs text-ink-600 border-t border-ink-100 pt-3">
+
+        <div className="flex items-center justify-between text-xs text-luxury-muted border-t border-zinc-100 pt-4 font-sans">
           {isPg && occupancy ? (
             <span className="flex items-center gap-1">
-              <Users className="h-3.5 w-3.5 text-ink-400" />
+              <Users className="h-3.5 w-3.5 text-zinc-400" />
               {occupancy}
             </span>
           ) : p.bedrooms > 0 ? (
             <span className="flex items-center gap-1">
-              <BedDouble className="h-3.5 w-3.5 text-ink-400" />
+              <BedDouble className="h-3.5 w-3.5 text-zinc-400" />
               {p.bedrooms} Bed
             </span>
           ) : null}
+          
           {p.bathrooms > 0 && (
             <span className="flex items-center gap-1">
-              <Bath className="h-3.5 w-3.5 text-ink-400" />
+              <Bath className="h-3.5 w-3.5 text-zinc-400" />
               {p.bathrooms} Bath
             </span>
           )}
+          
           <span className="flex items-center gap-1">
-            <Maximize2 className="h-3.5 w-3.5 text-ink-400" />
+            <Maximize2 className="h-3.5 w-3.5 text-zinc-400" />
             {formatArea(p.areaSqft)}
           </span>
-          <span className="text-ink-400">{titleCaseType(p.type)}</span>
+          
+          <span className="text-zinc-500 font-bold uppercase tracking-wider text-[9px] bg-zinc-100 px-2 py-0.5 rounded-[4px]">{titleCaseType(p.type)}</span>
         </div>
       </div>
     </Link>
