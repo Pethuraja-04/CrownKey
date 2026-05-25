@@ -13,7 +13,7 @@ const loginSchema = z.object({
 });
 
 const refreshSchema = z.object({
-  refreshToken: z.string().min(10),
+  refreshToken: z.string().min(10).optional(),
 });
 
 module.exports = { registerSchema, loginSchema, refreshSchema };

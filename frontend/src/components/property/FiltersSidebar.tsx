@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition, FormEvent, useEffect } from 'react';
+import React, { useState, useTransition, FormEvent, useEffect } from 'react';
 import { SlidersHorizontal, X, ShieldCheck, Sparkles } from 'lucide-react';
 
 const TYPES = ['APARTMENT', 'HOUSE', 'VILLA', 'PLOT', 'COMMERCIAL', 'PG'];
@@ -29,6 +29,12 @@ const POSTED_WITHIN: { value: string; label: string }[] = [
 ];
 
 const titleCase = (s: string) => s.replace('_', ' ').toLowerCase().replace(/(^|\s)\S/g, (c) => c.toUpperCase());
+
+const blockInvalidNum = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+    e.preventDefault();
+  }
+};
 
 interface FormState {
   q: string;
@@ -311,6 +317,7 @@ export default function FiltersSidebar() {
                 placeholder="Min"
                 className="input"
                 value={form.minPrice}
+                onKeyDown={blockInvalidNum}
                 onChange={(e) => setForm({ ...form, minPrice: e.target.value })}
               />
               <input
@@ -318,6 +325,7 @@ export default function FiltersSidebar() {
                 placeholder="Max"
                 className="input"
                 value={form.maxPrice}
+                onKeyDown={blockInvalidNum}
                 onChange={(e) => setForm({ ...form, maxPrice: e.target.value })}
               />
             </div>
@@ -331,6 +339,7 @@ export default function FiltersSidebar() {
                 placeholder="Min"
                 className="input"
                 value={form.minArea}
+                onKeyDown={blockInvalidNum}
                 onChange={(e) => setForm({ ...form, minArea: e.target.value })}
               />
               <input
@@ -338,6 +347,7 @@ export default function FiltersSidebar() {
                 placeholder="Max"
                 className="input"
                 value={form.maxArea}
+                onKeyDown={blockInvalidNum}
                 onChange={(e) => setForm({ ...form, maxArea: e.target.value })}
               />
             </div>

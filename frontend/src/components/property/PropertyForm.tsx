@@ -1,10 +1,16 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { AlertCircle, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import type { Property } from '@/lib/types';
 import ImageUploader from './ImageUploader';
+
+const blockInvalidNum = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+    e.preventDefault();
+  }
+};
 
 const TYPES = ['APARTMENT', 'HOUSE', 'VILLA', 'PLOT', 'COMMERCIAL', 'PG'];
 const FURNISHINGS = ['UNFURNISHED', 'SEMI_FURNISHED', 'FURNISHED'];
@@ -180,11 +186,13 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
           <div>
             <label className="label">Price (₹){form.type === 'PG' ? ' / month' : form.listingType === 'RENT' ? ' / month' : ''}</label>
             <input className="input" type="number" min={0} required value={form.price}
+              onKeyDown={blockInvalidNum}
               onChange={(e) => setForm({ ...form, price: e.target.value })} />
           </div>
           <div>
             <label className="label">Area (sq.ft)</label>
             <input className="input" type="number" min={1} required value={form.areaSqft}
+              onKeyDown={blockInvalidNum}
               onChange={(e) => setForm({ ...form, areaSqft: e.target.value })} />
           </div>
           {form.type === 'PG' ? (
@@ -205,11 +213,13 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
               <div>
                 <label className="label">Bedrooms</label>
                 <input className="input" type="number" min={0} max={20} value={form.bedrooms}
+                  onKeyDown={blockInvalidNum}
                   onChange={(e) => setForm({ ...form, bedrooms: e.target.value })} />
               </div>
               <div>
                 <label className="label">Bathrooms</label>
                 <input className="input" type="number" min={0} max={20} value={form.bathrooms}
+                  onKeyDown={blockInvalidNum}
                   onChange={(e) => setForm({ ...form, bathrooms: e.target.value })} />
               </div>
             </>
@@ -218,6 +228,7 @@ export default function PropertyForm({ initial, onSubmit, submitLabel }: Props) 
             <div>
               <label className="label">Bathrooms (shared)</label>
               <input className="input" type="number" min={0} max={20} value={form.bathrooms}
+                onKeyDown={blockInvalidNum}
                 onChange={(e) => setForm({ ...form, bathrooms: e.target.value })} />
             </div>
           )}

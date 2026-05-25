@@ -49,8 +49,7 @@ export default async function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      {/* HERO SECTION */}
-      <section className="relative h-[calc(100vh-4.5rem)] max-h-[900px] min-h-[750px] w-full overflow-hidden flex items-center">
+      <section className="relative min-h-[calc(100vh-4.5rem)] md:min-h-[750px] md:max-h-[900px] w-full overflow-hidden flex items-center py-12 md:py-0">
         {/* Background Cover Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -64,12 +63,12 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy via-luxury-navy/40 to-luxury-navy/60 z-10" />
         </div>
 
-        <div className="container relative z-20 py-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="container relative z-20 w-full py-8 md:py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             
             {/* LEFT COLUMN: Heading, Description & Search */}
-            <div className="lg:col-span-8 space-y-8">
-              <div className="space-y-6">
+            <div className="lg:col-span-8 space-y-6 md:space-y-8 mt-4 md:mt-0">
+              <div className="space-y-4 md:space-y-6">
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-xs tracking-[0.2em] uppercase">
                   Premium Real Estate
                 </span>
@@ -89,7 +88,7 @@ export default async function HomePage() {
             </div>
 
             {/* RIGHT COLUMN: Stats Cards Stacked Vertically */}
-            <div className="lg:col-span-4 space-y-6 stats-fade-in relative">
+            <div className="lg:col-span-4 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:gap-6 stats-fade-in relative mt-8 lg:mt-0">
               {/* Background Ambient Glows */}
               <div className="absolute -top-10 -right-10 w-72 h-72 bg-luxury-gold/10 rounded-full blur-[80px] pointer-events-none" />
               <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-luxury-deep/20 rounded-full blur-[80px] pointer-events-none" />
@@ -98,7 +97,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:16px_16px] rounded-3xl pointer-events-none" />
 
               {/* Stat 1: Active Listings */}
-              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[16px] md:rounded-[20px] p-4 md:p-6 shadow-xl hover:-translate-y-1 flex items-center gap-4 md:gap-5 relative">
                 <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
                   <Building2 className="w-6 h-6" />
                 </div>
@@ -114,7 +113,7 @@ export default async function HomePage() {
               </div>
 
               {/* Stat 2: Cities Covered */}
-              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[16px] md:rounded-[20px] p-4 md:p-6 shadow-xl hover:-translate-y-1 flex items-center gap-4 md:gap-5 relative">
                 <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
                   <Sparkles className="w-6 h-6" />
                 </div>
@@ -129,7 +128,7 @@ export default async function HomePage() {
               </div>
 
               {/* Stat 3: Owner Support */}
-              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[20px] p-6 shadow-xl hover:-translate-y-1 flex items-center gap-5 relative">
+              <div className="group bg-luxury-navy/40 backdrop-blur-md border border-white/10 hover:border-luxury-gold/30 hover:bg-luxury-navy/60 transition-all duration-500 rounded-[16px] md:rounded-[20px] p-4 md:p-6 shadow-xl hover:-translate-y-1 flex items-center gap-4 md:gap-5 relative">
                 <div className="w-12 h-12 rounded-[14px] bg-luxury-gold/10 border border-luxury-gold/25 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500 shrink-0">
                   <Users className="w-6 h-6" />
                 </div>
@@ -193,7 +192,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 md:grid-cols-4 gap-6">
           {CITIES.map((city, index) => (
             <Link
               key={city.name}
