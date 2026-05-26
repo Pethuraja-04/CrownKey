@@ -4,17 +4,22 @@ const env = require('../config/env');
 
 const setAuthCookies = (res, data) => {
   const isProd = env.nodeEnv === 'production';
-  res.cookie('accessToken', data.accessToken, {
+  // In production the frontend (vercel.app) and backend (onrender.com) are on
+  // different sites. SameSite=None + Secure is required so the browser sends
+  // cookies on cross-site fetch() calls with credentials: 'include'.
+  // In dev (same localhost) Lax is fine and avoids needing HTTPS locally.
+  const cookieBase = {
     httpOnly: true,
     secure: isProd,
-    sameSite: 'lax', // Must be lax to support cross-domain dev
-    maxAge: 15 * 60 * 1000 // 15 mins
+    sameSite: isProd ? 'none' : 'lax',
+  };
+  res.cookie('accessToken', data.accessToken, {
+    ...cookieBase,
+    maxAge: 15 * 60 * 1000, // 15 mins
   });
   res.cookie('refreshToken', data.refreshToken, {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: 'lax', // Must be lax to support cross-domain dev
-    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    ...cookieBase,
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 };
 
@@ -42,8 +47,10 @@ const logout = asyncHandler(async (req, res) => {
   if (token) {
     await authService.logout({ refreshToken: token });
   }
-  res.clearCookie('accessToken');
-  res.clearCookie('refreshToken');
+  const isProd = env.nodeEnv === 'production';
+  const clearOpts = { httpOnly: true, secure: isProd, sameSite: isProd ? 'none' : 'lax' };
+  res.clearCookie('accessToken', clearOpts);
+  res.clearCookie('refreshToken', clearOpts);
   res.json({ success: true, data: { ok: true } });
 });
 
