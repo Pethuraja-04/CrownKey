@@ -5,6 +5,8 @@ import {
   FacebookIcon, InstagramIcon, TwitterIcon, LinkedinIcon, YoutubeIcon, Key
 } from 'lucide-react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 const cols = [
   {
     title: 'Explore',
@@ -41,7 +43,7 @@ const cols = [
   {
     title: 'Resources',
     links: [
-      { href: 'http://localhost:4000/api-docs', label: 'API docs' },
+      { href: `${API_URL}/api-docs`, label: 'API docs' },
       { href: '#', label: 'Help centre' },
       { href: '#', label: 'Buyer guides' },
       { href: '#', label: 'Owner toolkit' },

@@ -5,12 +5,11 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'plus.unsplash.com' },
-      {
-        protocol: "https",
-        hostname: "crownkey.onrender.com",
-      },
-      { protocol: 'http', hostname: 'localhost', port: '4000', pathname: '/uploads/**' },
-      { protocol: 'http', hostname: 'localhost' },
+      // Production backend (Render). Localhost was removed — Vercel can't
+      // reach it and it caused 400 errors on Next.js image optimization.
+      { protocol: 'https', hostname: 'crownkey.onrender.com' },
+      // Cloudinary (used when CLOUDINARY_* env vars are set on Render)
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
   async rewrites() {
